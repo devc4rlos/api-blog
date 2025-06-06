@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Http\Builder;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+interface ResponseBuilderInterface
+{
+    public function getMessage(): string;
+    public function getCode(): int;
+    public function getResult(): ?array;
+    public function getWarnings(): ?array;
+    public function getMetadata(): array;
+
+    public function setMessage(string $message): self;
+    public function setCode(int $code): self;
+    public function setResult(array $result): self;
+    public function setResultResource(JsonResource $resource): self;
+    public function setWarnings(array $warnings): self;
+    public function setMetadata(string $attribute, mixed $value): self;
+    public function setListMetadata(array $listMedata): self;
+
+    public function response(): JsonResponse;
+    public function getDataResponse(): array;
+}
