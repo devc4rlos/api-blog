@@ -4,8 +4,10 @@ namespace App\Http\Builder;
 
 use App\Http\Builder\Data\BuilderMessageData;
 use App\Http\Builder\Data\BuilderMetadataData;
+use App\Http\Builder\Data\BuilderPaginateData;
 use App\Http\Builder\Data\BuilderResultData;
 use App\Http\Builder\Data\BuilderWarningsData;
+use App\Http\Pagination\PaginatorInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,6 +18,7 @@ class ResponseBuilder implements ResponseBuilderInterface
     private ?array $warnings;
     private int $code;
     private array $metadata;
+    private ?PaginatorInterface $paginator;
 
     public function __construct(
         string $message = '',
@@ -23,6 +26,7 @@ class ResponseBuilder implements ResponseBuilderInterface
         ?array $warnings = null,
         int    $code = 200,
         array  $metadata = [],
+        ?PaginatorInterface $paginator = null
     )
     {
         $this->message = $message;
@@ -30,6 +34,7 @@ class ResponseBuilder implements ResponseBuilderInterface
         $this->warnings = $warnings;
         $this->code = $code;
         $this->metadata = $metadata;
+        $this->paginator = $paginator;
     }
 
     public function setMessage(string $message): self
@@ -73,6 +78,12 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $this;
     }
 
+    public function setPaginator(PaginatorInterface $paginator): self
+    {
+        $this->paginator = $paginator;
+        return $this;
+    }
+
     public function getCode(): int
     {
         return $this->code;
@@ -98,6 +109,11 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $this->metadata;
     }
 
+    public function getPaginator(): ?PaginatorInterface
+    {
+        return $this->paginator;
+    }
+
     public function response(): JsonResponse
     {
         return response()->api($this);
@@ -109,6 +125,7 @@ class ResponseBuilder implements ResponseBuilderInterface
 
         $builderMessageData
             ->setNext(new BuilderResultData())
+            ->setNext(new BuilderPaginateData())
             ->setNext(new BuilderWarningsData())
             ->setNext(new BuilderMetadataData())
         ;

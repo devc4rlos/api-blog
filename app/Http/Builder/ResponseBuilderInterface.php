@@ -2,6 +2,7 @@
 
 namespace App\Http\Builder;
 
+use App\Http\Pagination\PaginatorInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,6 +14,8 @@ interface ResponseBuilderInterface
     public function getWarnings(): ?array;
     public function getMetadata(): array;
 
+    public function getPaginator(): ?PaginatorInterface;
+
     public function setMessage(string $message): self;
     public function setCode(int $code): self;
     public function setResult(array $result): self;
@@ -20,6 +23,8 @@ interface ResponseBuilderInterface
     public function setWarnings(array $warnings): self;
     public function setMetadata(string $attribute, mixed $value): self;
     public function setListMetadata(array $listMedata): self;
+
+    public function setPaginator(PaginatorInterface $paginator): self;
 
     public function response(): JsonResponse;
     public function getDataResponse(): array;
