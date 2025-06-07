@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Builder;
 
 use App\Http\Builder\ResponseBuilder;
+use App\Http\Pagination\PaginatorInterface;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Mockery;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -13,9 +14,9 @@ class ResponseBuilderTest extends TestCase
     public static function provideSetterTests(): array
     {
         return [
-            'message'  => ['setMessage', 'getMessage', 'Test message'],
-            'code'     => ['setCode', 'getCode', 404],
-            'result'   => ['setResult', 'getResult', ['data' => 'value']],
+            'message' => ['setMessage', 'getMessage', 'Test message'],
+            'code' => ['setCode', 'getCode', 404],
+            'result' => ['setResult', 'getResult', ['data' => 'value']],
             'warnings' => ['setListWarning', 'getWarnings', ['warning' => 'a warning']],
             'metadata' => ['setListMetadata', 'getMetadata', ['meta' => 'info']],
         ];
@@ -131,5 +132,44 @@ class ResponseBuilderTest extends TestCase
     {
         $builder = new ResponseBuilder();
         $this->assertEquals(['message' => ''], $builder->getDataResponse());
+    }
+
+    public function test_should_return_data_response_with_paginator()
+    {
+        $paginatorData = [
+            'links' => ['first' => 'http://localhost?page1', 'last' => 'http://localhost?page3', 'next' => 'http://localhost?page2', 'prev' => 'http://localhost?page1'],
+            'total' => 30,
+            'per_page' => 10,
+            'current_page' => 2,
+            'last_page' => 3,
+            'path' => 'http://localhost',
+        ];
+
+        $mock = Mockery::mock(PaginatorInterface::class);
+        $mock->shouldReceive('links')->andReturn($paginatorData['links']);
+        $mock->shouldReceive('total')->andReturn($paginatorData['total']);
+        $mock->shouldReceive('perPage')->andReturn($paginatorData['per_page']);
+        $mock->shouldReceive('currentPage')->andReturn($paginatorData['current_page']);
+        $mock->shouldReceive('lastPage')->andReturn($paginatorData['last_page']);
+        $mock->shouldReceive('path')->andReturn($paginatorData['path']);
+
+        $builder = new ResponseBuilder();
+        $builder->setPaginator($mock);
+
+        $response = $builder->getDataResponse();
+
+        $expectedResponse = [
+            'message' => '',
+            'meta' => [
+                'total' => $paginatorData['total'],
+                'per_page' => $paginatorData['per_page'],
+                'current_page' => $paginatorData['current_page'],
+                'last_page' => $paginatorData['last_page'],
+                'path' => $paginatorData['path'],
+            ],
+            'links' => $paginatorData['links'],
+        ];
+
+        $this->assertEquals($expectedResponse, $response);
     }
 }
