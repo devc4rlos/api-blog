@@ -50,12 +50,12 @@ class PaginatorLengthAwarePaginator implements PaginatorInterface
         return $this->paginator->appends($this->queryParameters)->url($this->paginator->lastPage());
     }
 
-    public function linkPrevious(): string
+    public function linkPrevious(): ?string
     {
         return $this->paginator->appends($this->queryParameters)->previousPageUrl();
     }
 
-    public function linkNext(): string
+    public function linkNext(): ?string
     {
         return $this->paginator->appends($this->queryParameters)->nextPageUrl();
     }

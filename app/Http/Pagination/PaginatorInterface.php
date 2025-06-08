@@ -11,7 +11,7 @@ interface PaginatorInterface
     public function path(): ?string;
     public function linkFirst(): string;
     public function linkLast(): string;
-    public function linkPrevious(): string;
-    public function linkNext(): string;
+    public function linkPrevious(): ?string;
+    public function linkNext(): ?string;
     public function links(): array;
 }
