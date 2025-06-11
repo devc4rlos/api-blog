@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
 
+/**
+ * @template TModel of Model
+ */
 class EloquentBuilderQueryGetter
 {
     private Builder $query;
@@ -33,7 +36,10 @@ class EloquentBuilderQueryGetter
             ->then(fn(PayloadQueryPipelineDTO $payload) => $payload->query()->paginate());
     }
 
-    public function find($id): ?Model
+    /**
+     * @return TModel
+     */
+    public function find($id)
     {
         $payload = new PayloadQueryPipelineDTO($this->query, $this->filtersDTO);
 
