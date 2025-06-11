@@ -23,7 +23,7 @@ class EloquentBuilderQueryGetterTest extends TestCase
         User::factory()->count(20)->create();
 
         $query = User::query();
-        $filtersDTO = new FiltersDTO(null, 'id', 'desc', null);
+        $filtersDTO = new FiltersDTO(sortBy: 'id', sortDirection:  'desc');
         $pipelinesDTO = new QueryPipelinesDTO(SortingPipelineStub::class);
 
         $this->queryGetter = new EloquentBuilderQueryGetter($query, $filtersDTO, $pipelinesDTO);

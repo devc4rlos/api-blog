@@ -10,10 +10,10 @@ readonly class FiltersDTO
     private ?string $relationships;
 
     public function __construct(
-        ?string $search,
-        ?string $sortBy,
-        ?string $sortDirection,
-        ?string $relationships,
+        ?string $search = null,
+        ?string $sortBy = null,
+        ?string $sortDirection = null,
+        ?string $relationships = null,
     )
     {
         $this->search = $search;
