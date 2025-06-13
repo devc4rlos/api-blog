@@ -1,6 +1,7 @@
 <?php
 
 use App\Facades\ResponseApi;
+use App\Http\Controllers\V1\UserController;
 
 Route::get('/', function () {
     return ResponseApi::setMessage('Welcome to API')
@@ -8,3 +9,5 @@ Route::get('/', function () {
         ->setResult(['status' => true])
         ->response();
 });
+
+Route::apiResource('users', UserController::class);
