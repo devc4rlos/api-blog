@@ -15,6 +15,7 @@ readonly class FiltersRequestDTO extends FiltersDTO
             sortBy: $request->get('sortBy'),
             sortDirection: $request->get('sortDirection'),
             relationships: $request->get('relationships'),
+            page: $request->get('page'),
         );
     }
 }

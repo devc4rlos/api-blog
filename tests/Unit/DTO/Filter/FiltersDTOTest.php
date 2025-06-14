@@ -11,10 +11,11 @@ class FiltersDTOTest extends TestCase
     public static function provideFilters(): array
     {
         return [
-            [['search', null, null, null], 'search', 'search'],
-            [[null, 'sortBy', null, null], 'sortBy', 'sortBy'],
-            [[null, null, 'sortDirection', null], 'sortDirection', 'sortDirection'],
+            [['search'], 'search', 'search'],
+            [[null, 'sortBy'], 'sortBy', 'sortBy'],
+            [[null, null, 'sortDirection'], 'sortDirection', 'sortDirection'],
             [[null, null, null, 'relationships'], 'relationships', 'relationships'],
+            [[null, null, null, null, 'page'], 'page', 'page'],
         ];
     }
 
