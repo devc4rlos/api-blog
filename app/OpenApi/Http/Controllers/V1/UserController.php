@@ -41,6 +41,18 @@ class UserController
      *               ),
      *         ),
      *     ),
+     *     @OA\Response(
+     *           response="404",
+     *           description="Requested page is out of range",
+     *           @OA\JsonContent(
+     *               type="object",
+     *               @OA\Property(
+     *                   property="message",
+     *                   type="string",
+     *                   example="Requested page (5) is out of range. The last page is 2.",
+     *               ),
+     *           ),
+     *       ),
      * )
      */
     public function index(){}
@@ -179,7 +191,7 @@ class UserController
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
-     *                  example="Resource not found.",
+     *                  example="The resource could not be found.",
      *              ),
      *          ),
      *      ),
@@ -240,7 +252,7 @@ class UserController
      *              @OA\Property(
      *                  property="message",
      *                  type="string",
-     *                  example="Resource not found.",
+     *                  example="The resource could not be found.",
      *              ),
      *          ),
      *      ),
@@ -318,7 +330,7 @@ class UserController
      *             @OA\Property(
      *                 property="message",
      *                 type="string",
-     *                 example="Resource not found.",
+     *                 example="The resource could not be found.",
      *             ),
      *         ),
      *     ),
