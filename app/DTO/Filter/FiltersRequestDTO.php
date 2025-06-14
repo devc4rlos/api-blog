@@ -4,7 +4,7 @@ namespace App\DTO\Filter;
 
 use Illuminate\Http\Request;
 
-readonly class FiltersRequestDTO extends FiltersDTO
+class FiltersRequestDTO extends FiltersDTO
 {
     public function __construct(
         Request $request

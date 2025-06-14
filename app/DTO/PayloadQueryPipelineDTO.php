@@ -5,7 +5,7 @@ namespace App\DTO;
 use App\DTO\Filter\FiltersDTO;
 use Illuminate\Database\Eloquent\Builder;
 
-readonly class PayloadQueryPipelineDTO
+class PayloadQueryPipelineDTO
 {
     private Builder $query;
     private FiltersDTO $filter;

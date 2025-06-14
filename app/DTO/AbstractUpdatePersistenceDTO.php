@@ -4,7 +4,7 @@ namespace App\DTO;
 
 use InvalidArgumentException;
 
-abstract readonly class AbstractUpdatePersistenceDTO
+abstract class AbstractUpdatePersistenceDTO
 {
     public array $changes;
 

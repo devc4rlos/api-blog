@@ -2,7 +2,7 @@
 
 namespace App\DTO\Filter;
 
-readonly class FiltersDTO
+class FiltersDTO
 {
     private ?string $search;
     private ?string $sortBy;

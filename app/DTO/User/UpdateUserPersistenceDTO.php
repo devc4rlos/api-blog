@@ -4,7 +4,7 @@ namespace App\DTO\User;
 
 use App\DTO\AbstractUpdatePersistenceDTO;
 
-readonly class UpdateUserPersistenceDTO extends AbstractUpdatePersistenceDTO
+class UpdateUserPersistenceDTO extends AbstractUpdatePersistenceDTO
 {
     protected function getAllowedKeys(): array
     {

@@ -2,7 +2,7 @@
 
 namespace App\DTO\User;
 
-readonly class CreateUserPersistenceDTO
+class CreateUserPersistenceDTO
 {
     public string $name;
     public string $email;
