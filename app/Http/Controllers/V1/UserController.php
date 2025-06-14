@@ -14,8 +14,10 @@ use App\Http\Requests\V1\User\UserUpdateRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class UserController extends Controller
+class UserController extends Controller implements HasMiddleware
 {
     private UserServiceInterface $userService;
 
@@ -73,5 +75,12 @@ class UserController extends Controller
         return ResponseApi::setMessage(__('controllers/user.destroy'))
             ->setResultResource(UserResource::make($user))
             ->response();
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('validate.pagination:' . User::class, only: ['index'])
+        ];
     }
 }
