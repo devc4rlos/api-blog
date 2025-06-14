@@ -1,10 +1,14 @@
 <?php
 
+use App\Facades\ResponseApi;
 use App\Http\Middleware\ForceApplicationJsonMiddleware;
 use App\Http\Middleware\ValidatePaginationMiddleware;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,5 +30,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (NotFoundHttpException $e):?JsonResponse {
+            if ($e->getPrevious() instanceof ModelNotFoundException) {
+                return ResponseApi::setMessage('The resource could not be found')->setCode(404)->response();
+            }
+            return ResponseApi::setMessage($e->getMessage())->setCode(404)->response();
+        });
     })->create();
