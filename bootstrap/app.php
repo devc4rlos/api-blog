@@ -2,6 +2,7 @@
 
 use App\Facades\ResponseApi;
 use App\Http\Middleware\ForceApplicationJsonMiddleware;
+use App\Http\Middleware\LoggingMiddleware;
 use App\Http\Middleware\ValidatePaginationMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->append([
             ForceApplicationJsonMiddleware::class,
+            LoggingMiddleware::class
         ]);
 
         $middleware->alias([
