@@ -2,10 +2,12 @@
 
 namespace App\Http\Requests\V1\User;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\V1\BaseFormRequest;
 
-class UserStoreRequest extends FormRequest
+class UserStoreRequest extends BaseFormRequest
 {
+    protected array $exceptAttributesLog = ['password', 'password_confirmation', 'token'];
+
     public function rules(): array
     {
         return [
