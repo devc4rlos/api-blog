@@ -6,6 +6,7 @@ use App\Decorators\User\UserCacheRepositoryDecorator;
 use App\Repositories\User\EloquentUserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class UserRepositoryServiceProvider extends ServiceProvider
 {
@@ -16,7 +17,8 @@ class UserRepositoryServiceProvider extends ServiceProvider
 
             return new UserCacheRepositoryDecorator(
                 $baseRepository,
-                $app->make('cache')
+                $app->make('cache'),
+                $app->make(LoggerInterface::class),
             );
         });
     }

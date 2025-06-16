@@ -13,6 +13,7 @@ use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Mockery;
 use Mockery\MockInterface;
+use Psr\Log\LoggerInterface;
 use Tests\TestCase;
 
 class UserCacheRepositoryDecoratorTest extends TestCase
@@ -26,13 +27,18 @@ class UserCacheRepositoryDecoratorTest extends TestCase
         parent::setUp();
 
         $this->repositoryMock = Mockery::mock(UserRepositoryInterface::class);
+        $loggerMock = Mockery::mock(LoggerInterface::class);
+
+        $loggerMock->shouldReceive('info');
+        $loggerMock->shouldReceive('debug');
+
         $this->cacheRepositoryMock = Mockery::mock(CacheRepository::class);
         $cacheFactoryMock = Mockery::mock(CacheFactory::class);
 
         $this->cacheRepositoryMock->shouldReceive('tags')->andReturnSelf();
         $cacheFactoryMock->shouldReceive('store')->andReturn($this->cacheRepositoryMock);
 
-        $this->decorator = new UserCacheRepositoryDecorator($this->repositoryMock, $cacheFactoryMock);
+        $this->decorator = new UserCacheRepositoryDecorator($this->repositoryMock, $cacheFactoryMock, $loggerMock);
     }
 
     public function test_should_return_user_from_cache_when_finding_by_id()
