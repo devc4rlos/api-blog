@@ -28,4 +28,9 @@ class UpdateUserInputDTO
     {
         return $this->data['email'] ?? null;
     }
+
+    public function toArray(): array
+    {
+        return $this->data;
+    }
 }
