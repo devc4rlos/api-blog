@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Repositories;
+namespace Tests\Feature\Repositories;
 
 use App\DTO\Filter\FiltersDTO;
 use App\DTO\QueryPipelinesDTO;

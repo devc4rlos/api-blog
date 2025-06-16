@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Repositories\User;
+namespace Tests\Feature\Repositories\User;
 
 use App\DTO\Filter\FiltersDTO;
 use App\DTO\User\CreateUserPersistenceDTO;
