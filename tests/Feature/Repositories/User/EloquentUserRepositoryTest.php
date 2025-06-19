@@ -24,7 +24,7 @@ class EloquentUserRepositoryTest extends TestCase
         $this->assertEquals(User::orderBy('id')->pluck('id'), $users->pluck('id'));
     }
 
-    public function test_should_find_user()
+    public function test_should_find_user_id()
     {
         $userCreated = User::factory()->create();
         $repository = new EloquentUserRepository();
@@ -64,5 +64,16 @@ class EloquentUserRepositoryTest extends TestCase
         $repository->delete($user);
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    }
+
+    public function test_should_find_user_email()
+    {
+        $userCreated = User::factory()->create();
+        $repository = new EloquentUserRepository();
+
+        $user = $repository->findByEmail($userCreated->email);
+
+        $this->assertSame($userCreated->id, $user->id);
+        $this->assertSame($userCreated->email, $user->email);
     }
 }
