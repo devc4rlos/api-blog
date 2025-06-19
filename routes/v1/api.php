@@ -1,6 +1,7 @@
 <?php
 
 use App\Facades\ResponseApi;
+use App\Http\Controllers\V1\Auth\AuthenticateController;
 use App\Http\Controllers\V1\UserController;
 
 Route::get('/', function () {
@@ -11,3 +12,5 @@ Route::get('/', function () {
 });
 
 Route::apiResource('users', UserController::class);
+Route::post('/login', [AuthenticateController::class, 'login']);
+Route::post('/logout', [AuthenticateController::class, 'logout']);
