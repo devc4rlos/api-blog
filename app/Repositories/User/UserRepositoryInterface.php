@@ -15,4 +15,5 @@ interface UserRepositoryInterface
     public function create(CreateUserPersistenceDTO $dto): User;
     public function update(User $user, UpdateUserPersistenceDTO $dto): bool;
     public function delete(User $user): bool;
+    public function findByEmail(string $email): ?User;
 }

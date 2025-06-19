@@ -59,4 +59,9 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->delete($user);
     }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->userRepository->findByEmail($email);
+    }
 }

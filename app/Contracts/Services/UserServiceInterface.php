@@ -15,4 +15,5 @@ interface UserServiceInterface
     public function create(CreateUserInputDTO $userDTO): User;
     public function update(User $user, UpdateUserInputDTO $userDTO): bool;
     public function delete(User $user): bool;
+    public function findByEmail(string $email): ?User;
 }

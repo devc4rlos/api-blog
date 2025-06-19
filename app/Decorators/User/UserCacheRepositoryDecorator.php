@@ -92,4 +92,9 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
             ]);
         }
     }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->repository->findByEmail($email);
+    }
 }

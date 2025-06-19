@@ -108,4 +108,9 @@ class UserLogServiceDecorator implements UserServiceInterface
             throw $e;
         }
     }
+
+    public function findByEmail(string $email): ?User
+    {
+        return $this->service->findByEmail($email);
+    }
 }
