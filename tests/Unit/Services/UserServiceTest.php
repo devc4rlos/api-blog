@@ -93,4 +93,15 @@ class UserServiceTest extends TestCase
         $service = new UserService($this->repository);
         $service->delete($user);
     }
+
+    public function test_should_return_user_by_email()
+    {
+        $user = Mockery::mock(User::class);
+        $this->repository->shouldReceive('findByEmail')->once()->andReturn($user);
+
+        $service = new UserService($this->repository);
+        $userReturned = $service->findByEmail(fake()->email());
+
+        $this->assertEquals($user, $userReturned);
+    }
 }
