@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers\V1;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserControllerTest extends TestCase
@@ -11,6 +12,13 @@ class UserControllerTest extends TestCase
     use RefreshDatabase;
 
     private string $endpoint = '/v1/users/';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $user = User::factory()->create(['is_admin' => true]);
+        Sanctum::actingAs($user);
+    }
 
     public function test_should_retrieved_all_users()
     {
@@ -42,7 +50,7 @@ class UserControllerTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertSame(__('controllers/user.store'), $response->json('message'));
-        $this->assertDatabaseCount('users', 1);
+        $this->assertDatabaseHas('users', ['email' => $data['email'], 'name' => $data['name']]);
     }
 
     public function test_should_update_existing_user()
@@ -68,13 +76,13 @@ class UserControllerTest extends TestCase
 
     public function test_should_return_404_status_when_trying_to_delete_non_existent_user()
     {
-        $response = $this->delete($this->endpoint . '1');
+        $response = $this->delete($this->endpoint . '9999');
         $response->assertStatus(404);
     }
 
     public function test_should_return_404_status_when_trying_show_non_existent_user()
     {
-        $response = $this->get($this->endpoint . '1');
+        $response = $this->get($this->endpoint . '9999');
         $response->assertStatus(404);
     }
 }
