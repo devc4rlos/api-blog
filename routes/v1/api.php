@@ -11,6 +11,9 @@ Route::get('/', function () {
         ->response();
 });
 
-Route::apiResource('users', UserController::class);
 Route::post('/login', [AuthenticateController::class, 'login']);
-Route::post('/logout', [AuthenticateController::class, 'logout']);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::apiResource('users', UserController::class);
+    Route::post('logout', [AuthenticateController::class, 'logout']);
+});
