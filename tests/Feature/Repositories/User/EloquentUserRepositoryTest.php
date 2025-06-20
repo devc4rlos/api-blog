@@ -42,6 +42,23 @@ class EloquentUserRepositoryTest extends TestCase
         $user = $repository->create($dto);
 
         $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name, 'email' => $dto->email]);
+        $this->assertFalse($user->isAdmin());
+    }
+
+    public function test_should_create_user_admin()
+    {
+        $dto = new CreateUserPersistenceDTO(
+            name: 'Test User',
+            email: 'dev@carlosalexandre.com.br',
+            password: '12345678',
+            isAdmin: true,
+        );
+
+        $repository = new EloquentUserRepository();
+        $user = $repository->create($dto);
+
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name, 'is_admin' => true]);
+        $this->assertTrue($user->isAdmin());
     }
 
     public function test_should_update_user()
@@ -54,6 +71,18 @@ class EloquentUserRepositoryTest extends TestCase
         $repository->update($userCreated, $dto);
 
         $this->assertDatabaseHas('users', ['id' => $userCreated->id, 'name' => $changedName]);
+    }
+
+    public function test_should_update_user_to_admin()
+    {
+        $userCreated = User::factory()->create();
+        $dto = new UpdateUserPersistenceDTO(['is_admin' => true]);
+        $repository = new EloquentUserRepository();
+
+        $repository->update($userCreated, $dto);
+
+        $this->assertDatabaseHas('users', ['id' => $userCreated->id, 'is_admin' => true]);
+        $this->assertTrue($userCreated->isAdmin());
     }
 
     public function test_should_delete_user()
