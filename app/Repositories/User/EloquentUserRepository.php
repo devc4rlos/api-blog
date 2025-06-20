@@ -40,6 +40,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             'name' => $dto->name,
             'email' => $dto->email,
             'password' => $dto->password,
+            'is_admin' => $dto->isAdmin,
         ]);
     }
 

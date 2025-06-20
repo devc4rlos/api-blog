@@ -8,7 +8,7 @@ class UpdateUserPersistenceDTO extends AbstractUpdatePersistenceDTO
 {
     protected function getAllowedKeys(): array
     {
-        return ['name', 'email'];
+        return ['name', 'email', 'is_admin'];
     }
 
     protected function getModelName(): string
