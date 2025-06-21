@@ -3,9 +3,9 @@
 namespace App\Repositories\User;
 
 use App\Dto\Filter\FiltersDto;
+use App\Dto\Persistence\User\CreateUserPersistenceDto;
+use App\Dto\Persistence\User\UpdateUserPersistenceDto;
 use App\Dto\QueryPipelinesDto;
-use App\Dto\User\CreateUserPersistenceDto;
-use App\Dto\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\EloquentBuilderQueryGetter;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -37,10 +37,10 @@ class EloquentUserRepository implements UserRepositoryInterface
     public function create(CreateUserPersistenceDto $dto): User
     {
         return User::create([
-            'name' => $dto->name,
-            'email' => $dto->email,
-            'password' => $dto->password,
-            'is_admin' => $dto->isAdmin,
+            'name' => $dto->name(),
+            'email' => $dto->email(),
+            'password' => $dto->password(),
+            'is_admin' => $dto->isAdmin(),
         ]);
     }
 

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Repositories\User;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserPersistenceDto;
-use App\Dto\User\UpdateUserPersistenceDto;
+use App\Dto\Persistence\User\CreateUserPersistenceDto;
+use App\Dto\Persistence\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\User\EloquentUserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -41,7 +41,7 @@ class EloquentUserRepositoryTest extends TestCase
 
         $user = $repository->create($dto);
 
-        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name, 'email' => $dto->email]);
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name(), 'email' => $dto->email()]);
         $this->assertFalse($user->isAdmin());
     }
 
@@ -57,7 +57,7 @@ class EloquentUserRepositoryTest extends TestCase
         $repository = new EloquentUserRepository();
         $user = $repository->create($dto);
 
-        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name, 'is_admin' => true]);
+        $this->assertDatabaseHas('users', ['id' => $user->id, 'name' => $dto->name(), 'is_admin' => true]);
         $this->assertTrue($user->isAdmin());
     }
 

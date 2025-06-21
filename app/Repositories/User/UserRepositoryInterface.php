@@ -3,8 +3,8 @@
 namespace App\Repositories\User;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserPersistenceDto;
-use App\Dto\User\UpdateUserPersistenceDto;
+use App\Dto\Persistence\User\CreateUserPersistenceDto;
+use App\Dto\Persistence\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 

@@ -4,8 +4,8 @@ namespace Tests\Unit\Decorators\User;
 
 use App\Decorators\User\UserCacheRepositoryDecorator;
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserPersistenceDto;
-use App\Dto\User\UpdateUserPersistenceDto;
+use App\Dto\Persistence\User\CreateUserPersistenceDto;
+use App\Dto\Persistence\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
