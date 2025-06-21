@@ -2,17 +2,8 @@
 
 namespace App\Dto\User;
 
-use App\Dto\AbstractUpdatePersistenceDto;
+use App\Dto\BaseUpdatePersistenceDto;
 
-class UpdateUserPersistenceDto extends AbstractUpdatePersistenceDto
+class UpdateUserPersistenceDto extends BaseUpdatePersistenceDto
 {
-    protected function getAllowedKeys(): array
-    {
-        return ['name', 'email', 'is_admin'];
-    }
-
-    protected function getModelName(): string
-    {
-        return 'User';
-    }
 }
