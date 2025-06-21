@@ -3,8 +3,8 @@
 namespace App\Contracts\Services;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserInputDto;
-use App\Dto\User\UpdateUserInputDto;
+use App\Dto\Input\User\CreateUserInputDto;
+use App\Dto\Input\User\UpdateUserInputDto;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 

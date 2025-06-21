@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Dto\User;
+namespace App\Dto\Input\User;
 
 class CreateUserInputDto
 {
-    public string $name;
-    public string $email;
-    public string $password;
+    private string $name;
+    private string $email;
+    private string $password;
 
     public function __construct(
         string $name,
@@ -19,10 +19,9 @@ class CreateUserInputDto
         $this->password = $password;
     }
 
-    public function name():  string
+    public function name(): string
     {
         return $this->name;
-
     }
 
     public function email(): string

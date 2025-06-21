@@ -3,8 +3,8 @@
 namespace Tests\Unit\Services;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserInputDto;
-use App\Dto\User\UpdateUserInputDto;
+use App\Dto\Input\User\CreateUserInputDto;
+use App\Dto\Input\User\UpdateUserInputDto;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\UserService;
@@ -69,11 +69,7 @@ class UserServiceTest extends TestCase
     {
         $user = Mockery::mock(User::class);
         $dto = Mockery::mock(UpdateUserInputDto::class);
-
-        $dto->shouldReceive('has')->with('name')->once()->andReturn(true);
-        $dto->shouldReceive('has')->with('email')->once()->andReturn(true);
-        $dto->shouldReceive('name')->once()->andReturn('name');
-        $dto->shouldReceive('email')->once()->andReturn('email');
+        $dto->shouldReceive('toArray')->once()->andReturn([]);
 
         $this->repository->shouldReceive('update')
             ->andReturn(true)

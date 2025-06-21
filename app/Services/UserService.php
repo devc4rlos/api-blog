@@ -4,19 +4,16 @@ namespace App\Services;
 
 use App\Contracts\Services\UserServiceInterface;
 use App\Dto\Filter\FiltersDto;
-use App\Dto\User\CreateUserInputDto;
+use App\Dto\Input\User\CreateUserInputDto;
+use App\Dto\Input\User\UpdateUserInputDto;
 use App\Dto\User\CreateUserPersistenceDto;
-use App\Dto\User\UpdateUserInputDto;
 use App\Dto\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Services\Commons\FillableFromDtoTrait;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class UserService implements UserServiceInterface
 {
-    use FillableFromDtoTrait;
-
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -50,7 +47,7 @@ class UserService implements UserServiceInterface
     {
         $userEntity = new User();
 
-        $this->fill($userEntity, $userDTO, ['name', 'email']);
+        $userEntity->fill($userDTO->toArray());
 
         return $this->userRepository->update($user, new UpdateUserPersistenceDto($userEntity->toArray()));
     }
