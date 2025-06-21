@@ -3,9 +3,9 @@
 namespace App\Repositories\User;
 
 use App\Dto\Filter\FiltersDto;
+use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use App\Dto\Persistence\User\CreateUserPersistenceDto;
 use App\Dto\Persistence\User\UpdateUserPersistenceDto;
-use App\Dto\QueryPipelinesDto;
 use App\Models\User;
 use App\Repositories\EloquentBuilderQueryGetter;
 use Illuminate\Pagination\LengthAwarePaginator;

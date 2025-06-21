@@ -2,7 +2,7 @@
 
 namespace App\Repositories\QueryPipelines;
 
-use App\Dto\PayloadQueryPipelineDto;
+use App\Dto\Persistence\QueryPipeline\PayloadQueryPipelineDto;
 use Closure;
 
 interface QueryPipelineInterface

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dto;
+namespace App\Dto\Persistence\QueryPipeline;
 
 use App\Dto\Filter\FiltersDto;
 use Illuminate\Database\Eloquent\Builder;

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Dto;
 
-use App\Dto\QueryPipelinesDto;
+use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use Tests\Stubs\QueryPipelinesDTO\AnotherValidPipelineStub;
 use Tests\Stubs\QueryPipelinesDTO\InvalidPipelineStub;
 use Tests\Stubs\QueryPipelinesDTO\ValidPipelineStub;

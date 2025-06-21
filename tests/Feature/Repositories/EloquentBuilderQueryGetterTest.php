@@ -3,7 +3,7 @@
 namespace Tests\Feature\Repositories;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\QueryPipelinesDto;
+use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use App\Models\User;
 use App\Repositories\EloquentBuilderQueryGetter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
