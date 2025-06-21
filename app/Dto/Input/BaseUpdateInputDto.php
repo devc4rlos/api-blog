@@ -4,7 +4,7 @@ namespace App\Dto\Input;
 
 abstract class BaseUpdateInputDto
 {
-    private array $changes;
+    protected array $changes;
 
     public function __construct(array $changes)
     {

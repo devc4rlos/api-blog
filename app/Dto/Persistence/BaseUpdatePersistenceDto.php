@@ -4,7 +4,7 @@ namespace App\Dto\Persistence;
 
 abstract class BaseUpdatePersistenceDto
 {
-    private array $changes;
+    protected array $changes;
 
     public function __construct(array $changes)
     {
