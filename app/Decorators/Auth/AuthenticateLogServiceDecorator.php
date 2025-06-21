@@ -3,7 +3,7 @@
 namespace App\Decorators\Auth;
 
 use App\Contracts\Services\AuthenticateServiceInterface;
-use App\Dto\Auth\AuthCredentialDto;
+use App\Dto\Input\Auth\AuthCredentialInputDto;
 use App\Models\User;
 use App\Services\AuthenticateService;
 use Exception;
@@ -25,7 +25,7 @@ class AuthenticateLogServiceDecorator implements AuthenticateServiceInterface
     /**
      * @throws AuthenticationException
      */
-    public function authenticate(AuthCredentialDto $credentialDTO): string
+    public function authenticate(AuthCredentialInputDto $credentialDTO): string
     {
         $context = ['email' => $credentialDTO->email()];
         $this->logger->info('Authentication attempt started.', $context);

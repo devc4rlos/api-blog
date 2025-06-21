@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\V1\Auth;
 
 use App\Contracts\Services\AuthenticateServiceInterface;
-use App\Dto\Auth\AuthCredentialDto;
+use App\Dto\Input\Auth\AuthCredentialInputDto;
 use App\Facades\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\Auth\LoginRequest;
@@ -19,7 +19,7 @@ class AuthenticateController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentialsDTO = new AuthCredentialDto($request->email, $request->password);
+        $credentialsDTO = new AuthCredentialInputDto($request->email, $request->password);
 
         $token = $this->service->authenticate($credentialsDTO);
 

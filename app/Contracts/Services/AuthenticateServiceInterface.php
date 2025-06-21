@@ -2,12 +2,12 @@
 
 namespace App\Contracts\Services;
 
-use App\Dto\Auth\AuthCredentialDto;
+use App\Dto\Input\Auth\AuthCredentialInputDto;
 use App\Models\User;
 use Laravel\Sanctum\PersonalAccessToken;
 
 interface AuthenticateServiceInterface
 {
-    public function authenticate(AuthCredentialDto $credentialDTO): string;
+    public function authenticate(AuthCredentialInputDto $credentialDTO): string;
     public function logout(User $user, PersonalAccessToken $token): bool;
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Dto\Auth;
+namespace App\Dto\Input\Auth;
 
-class AuthCredentialDto
+class AuthCredentialInputDto
 {
     private string $email;
     private string $password;

@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\Services\AuthenticateServiceInterface;
+use App\Dto\Input\Auth\AuthCredentialInputDto;
 use App\Dto\Persistence\AccessToken\CreateAccessTokenPersistenceDto;
-use App\Dto\Auth\AuthCredentialDto;
 use App\Models\User;
 use App\Repositories\AccessToken\AccessTokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -27,7 +27,7 @@ class AuthenticateService implements AuthenticateServiceInterface
     /**
      * @throws AuthenticationException
      */
-    public function authenticate(AuthCredentialDto $credentialDTO): string
+    public function authenticate(AuthCredentialInputDto $credentialDTO): string
     {
         $user = $this->userRepository->findByEmail($credentialDTO->email());
 
