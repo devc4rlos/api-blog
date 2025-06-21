@@ -2,7 +2,7 @@
 
 namespace App\Dto\Input\User;
 
-use App\Dto\BaseUpdateInputDto;
+use App\Dto\Input\BaseUpdateInputDto;
 
 class UpdateUserInputDto extends BaseUpdateInputDto
 {
