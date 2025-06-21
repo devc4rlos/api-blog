@@ -2,9 +2,9 @@
 
 namespace App\Decorators\User;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserPersistenceDTO;
-use App\DTO\User\UpdateUserPersistenceDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserPersistenceDto;
+use App\Dto\User\UpdateUserPersistenceDto;
 use App\Helpers\CreateCacheKeyHelper;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
@@ -29,7 +29,7 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
         $this->logger = $logger;
     }
 
-    public function all(FiltersDTO $filtersDTO): LengthAwarePaginator
+    public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
         $cacheKey = CreateCacheKeyHelper::forIndex('users', $filtersDTO);
 
@@ -43,7 +43,7 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
         });
     }
 
-    public function findById(int $id, FiltersDTO $filtersDTO): User
+    public function findById(int $id, FiltersDto $filtersDTO): User
     {
         $cacheKey = CreateCacheKeyHelper::forFind('users', $id, $filtersDTO);
 
@@ -58,13 +58,13 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
         });
     }
 
-    public function create(CreateUserPersistenceDTO $dto): User
+    public function create(CreateUserPersistenceDto $dto): User
     {
         $this->clearCache('create');
         return $this->repository->create($dto);
     }
 
-    public function update(User $user, UpdateUserPersistenceDTO $dto): bool
+    public function update(User $user, UpdateUserPersistenceDto $dto): bool
     {
         $this->clearCache('update', ['user_id' => $user->id]);
         return $this->repository->update($user, $dto);

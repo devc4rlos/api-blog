@@ -2,10 +2,10 @@
 
 namespace App\Repositories\QueryPipelines;
 
-use App\DTO\PayloadQueryPipelineDTO;
+use App\Dto\PayloadQueryPipelineDto;
 use Closure;
 
 interface QueryPipelineInterface
 {
-    public function handle(PayloadQueryPipelineDTO $payload, Closure $next);
+    public function handle(PayloadQueryPipelineDto $payload, Closure $next);
 }

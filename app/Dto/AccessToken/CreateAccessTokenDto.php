@@ -1,11 +1,11 @@
 <?php
 
-namespace App\DTO\AccessToken;
+namespace App\Dto\AccessToken;
 
 use App\Models\User;
 use DateTimeInterface;
 
-class CreateAccessTokenDTO
+class CreateAccessTokenDto
 {
     private User $user;
     private string $name;

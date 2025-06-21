@@ -2,12 +2,12 @@
 
 namespace App\Repositories\AccessToken;
 
-use App\DTO\AccessToken\CreateAccessTokenDTO;
+use App\Dto\AccessToken\CreateAccessTokenDto;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
 interface AccessTokenRepositoryInterface
 {
-    public function createToken(CreateAccessTokenDTO $accessTokenDTO): NewAccessToken;
+    public function createToken(CreateAccessTokenDto $accessTokenDTO): NewAccessToken;
     public function revokeToken(PersonalAccessToken $token): bool;
 }

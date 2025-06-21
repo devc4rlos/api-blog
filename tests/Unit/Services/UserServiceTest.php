@@ -2,9 +2,9 @@
 
 namespace Tests\Unit\Services;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserInputDTO;
-use App\DTO\User\UpdateUserInputDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserInputDto;
+use App\Dto\User\UpdateUserInputDto;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\UserService;
@@ -26,7 +26,7 @@ class UserServiceTest extends TestCase
     public function test_should_return_all_users()
     {
         $lengthAwarePaginator = Mockery::mock(LengthAwarePaginator::class);
-        $filtersDTO = new FiltersDTO();
+        $filtersDTO = new FiltersDto();
 
         $this->repository->shouldReceive('all')
             ->andReturn($lengthAwarePaginator)
@@ -39,7 +39,7 @@ class UserServiceTest extends TestCase
     public function test_should_return_user_by_id()
     {
         $user = Mockery::mock(User::class);
-        $filtersDTO = new FiltersDTO();
+        $filtersDTO = new FiltersDto();
 
         $this->repository->shouldReceive('findById')
             ->andReturn($user)
@@ -53,7 +53,7 @@ class UserServiceTest extends TestCase
     {
         $user = Mockery::mock(User::class);
 
-        $dto = Mockery::mock(CreateUserInputDTO::class);
+        $dto = Mockery::mock(CreateUserInputDto::class);
         $dto->shouldReceive('name')->once()->andReturn('name');
         $dto->shouldReceive('email')->once()->andReturn('email');
         $dto->shouldReceive('password')->once()->andReturn('password');
@@ -68,7 +68,7 @@ class UserServiceTest extends TestCase
     public function test_should_update_user()
     {
         $user = Mockery::mock(User::class);
-        $dto = Mockery::mock(UpdateUserInputDTO::class);
+        $dto = Mockery::mock(UpdateUserInputDto::class);
 
         $dto->shouldReceive('has')->with('name')->once()->andReturn(true);
         $dto->shouldReceive('has')->with('email')->once()->andReturn(true);

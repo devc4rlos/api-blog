@@ -3,9 +3,9 @@
 namespace App\Decorators\User;
 
 use App\Contracts\Services\UserServiceInterface;
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserInputDTO;
-use App\DTO\User\UpdateUserInputDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserInputDto;
+use App\Dto\User\UpdateUserInputDto;
 use App\Models\User;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -22,12 +22,12 @@ class UserLogServiceDecorator implements UserServiceInterface
         $this->logger = $logger;
     }
 
-    public function all(FiltersDTO $filtersDTO): LengthAwarePaginator
+    public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
         return $this->service->all($filtersDTO);
     }
 
-    public function findById(int $id, FiltersDTO $filtersDTO): User
+    public function findById(int $id, FiltersDto $filtersDTO): User
     {
         return $this->service->findById($id, $filtersDTO);
     }
@@ -35,7 +35,7 @@ class UserLogServiceDecorator implements UserServiceInterface
     /**
      * @throws Exception
      */
-    public function create(CreateUserInputDTO $userDTO): User
+    public function create(CreateUserInputDto $userDTO): User
     {
         $this->logger->info('Starting user creation process.', [
             'name' => $userDTO->name(),
@@ -61,7 +61,7 @@ class UserLogServiceDecorator implements UserServiceInterface
     /**
      * @throws Exception
      */
-    public function update(User $user, UpdateUserInputDTO $userDTO): bool
+    public function update(User $user, UpdateUserInputDto $userDTO): bool
     {
         $this->logger->info('Starting user update process.', ['user_id' => $user->id]);
         try {

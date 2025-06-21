@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Unit\DTO;
+namespace Tests\Unit\Dto;
 
-use App\DTO\QueryPipelinesDTO;
+use App\Dto\QueryPipelinesDto;
 use Tests\Stubs\QueryPipelinesDTO\AnotherValidPipelineStub;
 use Tests\Stubs\QueryPipelinesDTO\InvalidPipelineStub;
 use Tests\Stubs\QueryPipelinesDTO\ValidPipelineStub;
 use Tests\TestCase;
 
-class QueryPipelinesDTOTest extends TestCase
+class QueryPipelinesDtoTest extends TestCase
 {
     public function test_should_store_pipelines_that_implement_the_interface()
     {
@@ -17,7 +17,7 @@ class QueryPipelinesDTOTest extends TestCase
             AnotherValidPipelineStub::class,
         ];
 
-        $dto = new QueryPipelinesDTO(...$pipelines);
+        $dto = new QueryPipelinesDto(...$pipelines);
 
         $this->assertCount(2, $dto->pipelines());
         $this->assertEquals($pipelines, $dto->pipelines());
@@ -31,7 +31,7 @@ class QueryPipelinesDTOTest extends TestCase
             AnotherValidPipelineStub::class,
         ];
 
-        $dto = new QueryPipelinesDTO(...$mixedPipelines);
+        $dto = new QueryPipelinesDto(...$mixedPipelines);
 
         $expectedPipelines = [
             ValidPipelineStub::class,
@@ -48,7 +48,7 @@ class QueryPipelinesDTOTest extends TestCase
             InvalidPipelineStub::class,
         ];
 
-        $dto = new QueryPipelinesDTO(...$invalidPipelines);
+        $dto = new QueryPipelinesDto(...$invalidPipelines);
 
         $this->assertEmpty($dto->pipelines());
         $this->assertCount(0, $dto->pipelines());
@@ -56,7 +56,7 @@ class QueryPipelinesDTOTest extends TestCase
 
     public function test_should_be_empty_when_instantiated_with_no_pipelines(): void
     {
-        $dto = new QueryPipelinesDTO();
+        $dto = new QueryPipelinesDto();
 
         $this->assertEmpty($dto->pipelines());
     }

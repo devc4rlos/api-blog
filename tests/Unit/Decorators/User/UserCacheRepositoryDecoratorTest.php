@@ -3,9 +3,9 @@
 namespace Tests\Unit\Decorators\User;
 
 use App\Decorators\User\UserCacheRepositoryDecorator;
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserPersistenceDTO;
-use App\DTO\User\UpdateUserPersistenceDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserPersistenceDto;
+use App\Dto\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
@@ -44,7 +44,7 @@ class UserCacheRepositoryDecoratorTest extends TestCase
     public function test_should_return_user_from_cache_when_finding_by_id()
     {
         $userName = 'Test User';
-        $filtersDTO = new FiltersDTO();
+        $filtersDTO = new FiltersDto();
 
         $this->cacheRepositoryMock
             ->shouldReceive('remember')
@@ -61,7 +61,7 @@ class UserCacheRepositoryDecoratorTest extends TestCase
 
     public function test_should_return_paginated_users_from_cache()
     {
-        $filtersDTO = new FiltersDTO();
+        $filtersDTO = new FiltersDto();
 
         $paginator = Mockery::mock(LengthAwarePaginator::class);
         $this->cacheRepositoryMock
@@ -78,7 +78,7 @@ class UserCacheRepositoryDecoratorTest extends TestCase
 
     public function test_should_flush_cache_and_delegate_creation_to_repository()
     {
-        $dto = Mockery::mock(CreateUserPersistenceDTO::class);
+        $dto = Mockery::mock(CreateUserPersistenceDto::class);
         $user = new User(['id' => 1]);
 
         $this->cacheRepositoryMock->shouldReceive('flush')->once();
@@ -91,7 +91,7 @@ class UserCacheRepositoryDecoratorTest extends TestCase
 
     public function test_should_flush_cache_and_delegate_update_to_repository()
     {
-        $dto = Mockery::mock(UpdateUserPersistenceDTO::class)->makePartial();
+        $dto = Mockery::mock(UpdateUserPersistenceDto::class)->makePartial();
         $user = new User(['id' => 1, 'name' => 'Test User']);
 
         $this->cacheRepositoryMock->shouldReceive('flush')->once();

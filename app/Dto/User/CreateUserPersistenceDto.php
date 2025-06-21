@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO\User;
+namespace App\Dto\User;
 
-class CreateUserPersistenceDTO
+class CreateUserPersistenceDto
 {
     public string $name;
     public string $email;

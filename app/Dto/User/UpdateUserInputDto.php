@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO\User;
+namespace App\Dto\User;
 
-class UpdateUserInputDTO
+class UpdateUserInputDto
 {
     private array $data;
 

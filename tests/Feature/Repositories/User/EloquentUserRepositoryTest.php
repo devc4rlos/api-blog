@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Repositories\User;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserPersistenceDTO;
-use App\DTO\User\UpdateUserPersistenceDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserPersistenceDto;
+use App\Dto\User\UpdateUserPersistenceDto;
 use App\Models\User;
 use App\Repositories\User\EloquentUserRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,7 +19,7 @@ class EloquentUserRepositoryTest extends TestCase
         User::factory()->count(10)->create();
         $repository = new EloquentUserRepository();
 
-        $users = $repository->all(new FiltersDTO());
+        $users = $repository->all(new FiltersDto());
 
         $this->assertEquals(User::orderBy('id')->pluck('id'), $users->pluck('id'));
     }
@@ -29,14 +29,14 @@ class EloquentUserRepositoryTest extends TestCase
         $userCreated = User::factory()->create();
         $repository = new EloquentUserRepository();
 
-        $user = $repository->findById($userCreated->id, new FiltersDTO());
+        $user = $repository->findById($userCreated->id, new FiltersDto());
 
         $this->assertSame($userCreated->id, $user->id);
     }
 
     public function test_should_create_user()
     {
-        $dto = new CreateUserPersistenceDTO(name: 'Test User', email: 'dev@carlosalexandre.com.br', password: '12345678');
+        $dto = new CreateUserPersistenceDto(name: 'Test User', email: 'dev@carlosalexandre.com.br', password: '12345678');
         $repository = new EloquentUserRepository();
 
         $user = $repository->create($dto);
@@ -47,7 +47,7 @@ class EloquentUserRepositoryTest extends TestCase
 
     public function test_should_create_user_admin()
     {
-        $dto = new CreateUserPersistenceDTO(
+        $dto = new CreateUserPersistenceDto(
             name: 'Test User',
             email: 'dev@carlosalexandre.com.br',
             password: '12345678',
@@ -65,7 +65,7 @@ class EloquentUserRepositoryTest extends TestCase
     {
         $changedName = 'Test user';
         $userCreated = User::factory()->create();
-        $dto = new UpdateUserPersistenceDTO(['name' => $changedName]);
+        $dto = new UpdateUserPersistenceDto(['name' => $changedName]);
         $repository = new EloquentUserRepository();
 
         $repository->update($userCreated, $dto);
@@ -76,7 +76,7 @@ class EloquentUserRepositoryTest extends TestCase
     public function test_should_update_user_to_admin()
     {
         $userCreated = User::factory()->create();
-        $dto = new UpdateUserPersistenceDTO(['is_admin' => true]);
+        $dto = new UpdateUserPersistenceDto(['is_admin' => true]);
         $repository = new EloquentUserRepository();
 
         $repository->update($userCreated, $dto);

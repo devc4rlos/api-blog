@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Services;
 
-use App\DTO\Auth\AuthCredentialDTO;
+use App\Dto\Auth\AuthCredentialDto;
 use App\Models\User;
 use App\Repositories\AccessToken\AccessTokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -56,7 +56,7 @@ class AuthenticateServiceTest extends TestCase
         $this->repository->shouldReceive('createToken')->once()->andReturn($newAccessToken);
 
         $service = new AuthenticateService($this->repository, $this->userRepository);
-        $credentialDTO = new AuthCredentialDTO(fake()->email(), $password);
+        $credentialDTO = new AuthCredentialDto(fake()->email(), $password);
 
         $token = $service->authenticate($credentialDTO);
 
@@ -73,7 +73,7 @@ class AuthenticateServiceTest extends TestCase
         $this->userRepository->shouldReceive('findByEmail')->once()->andReturn($user);
 
         $service = new AuthenticateService($this->repository, $this->userRepository);
-        $credentialDTO = new AuthCredentialDTO(fake()->email(), $password);
+        $credentialDTO = new AuthCredentialDto(fake()->email(), $password);
 
         $service->authenticate($credentialDTO);
     }

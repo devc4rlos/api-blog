@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO\User;
+namespace App\Dto\User;
 
-use App\DTO\AbstractUpdatePersistenceDTO;
+use App\Dto\AbstractUpdatePersistenceDto;
 
-class UpdateUserPersistenceDTO extends AbstractUpdatePersistenceDTO
+class UpdateUserPersistenceDto extends AbstractUpdatePersistenceDto
 {
     protected function getAllowedKeys(): array
     {

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\PayloadQueryPipelineDTO;
-use App\DTO\QueryPipelinesDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\PayloadQueryPipelineDto;
+use App\Dto\QueryPipelinesDto;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -16,10 +16,10 @@ use Illuminate\Pipeline\Pipeline;
 class EloquentBuilderQueryGetter
 {
     private Builder $query;
-    private FiltersDTO $filtersDTO;
-    private QueryPipelinesDTO $pipelinesDTO;
+    private FiltersDto $filtersDTO;
+    private QueryPipelinesDto $pipelinesDTO;
 
-    public function __construct(Builder $query, FiltersDTO $filtersDTO, QueryPipelinesDTO $pipelinesDTO)
+    public function __construct(Builder $query, FiltersDto $filtersDTO, QueryPipelinesDto $pipelinesDTO)
     {
         $this->query = $query;
         $this->filtersDTO = $filtersDTO;
@@ -28,12 +28,12 @@ class EloquentBuilderQueryGetter
 
     public function all(): LengthAwarePaginator
     {
-        $payload = new PayloadQueryPipelineDTO($this->query, $this->filtersDTO);
+        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO);
 
         return app(Pipeline::class)
             ->send($payload)
             ->through($this->pipelinesDTO->pipelines())
-            ->then(fn(PayloadQueryPipelineDTO $payload) => $payload->query()->paginate());
+            ->then(fn(PayloadQueryPipelineDto $payload) => $payload->query()->paginate());
     }
 
     /**
@@ -41,7 +41,7 @@ class EloquentBuilderQueryGetter
      */
     public function find($id)
     {
-        $payload = new PayloadQueryPipelineDTO($this->query, $this->filtersDTO);
+        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO);
 
         return app(Pipeline::class)
             ->send($payload)

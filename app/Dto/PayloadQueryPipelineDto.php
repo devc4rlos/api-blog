@@ -1,16 +1,16 @@
 <?php
 
-namespace App\DTO;
+namespace App\Dto;
 
-use App\DTO\Filter\FiltersDTO;
+use App\Dto\Filter\FiltersDto;
 use Illuminate\Database\Eloquent\Builder;
 
-class PayloadQueryPipelineDTO
+class PayloadQueryPipelineDto
 {
     private Builder $query;
-    private FiltersDTO $filter;
+    private FiltersDto $filter;
 
-    public function __construct(Builder $query, FiltersDTO $filter)
+    public function __construct(Builder $query, FiltersDto $filter)
     {
         $this->query = $query;
         $this->filter = $filter;
@@ -21,7 +21,7 @@ class PayloadQueryPipelineDTO
         return $this->query;
     }
 
-    public function filter(): FiltersDTO
+    public function filter(): FiltersDto
     {
         return $this->filter;
     }

@@ -2,13 +2,13 @@
 
 namespace Tests\Stubs\QueryPipelinesDTO;
 
-use App\DTO\PayloadQueryPipelineDTO;
+use App\Dto\PayloadQueryPipelineDto;
 use App\Repositories\QueryPipelines\QueryPipelineInterface;
 use Closure;
 
 class ValidPipelineStub implements QueryPipelineInterface
 {
-    public function handle(PayloadQueryPipelineDTO $payload, Closure $next)
+    public function handle(PayloadQueryPipelineDto $payload, Closure $next)
     {
     }
 }

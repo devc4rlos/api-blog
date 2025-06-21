@@ -2,7 +2,7 @@
 
 namespace Feature\Repositories\AccessToken;
 
-use App\DTO\AccessToken\CreateAccessTokenDTO;
+use App\Dto\AccessToken\CreateAccessTokenDto;
 use App\Models\User;
 use App\Repositories\AccessToken\EloquentAccessTokenRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,7 +18,7 @@ class EloquentAccessTokenRepositoryTest extends TestCase
         $name = 'testing';
         $abilities = ['post:create', 'post:read'];
         $expiresAt = now()->addHour();
-        $dto = new CreateAccessTokenDTO($userCreated, $name, $abilities, $expiresAt);
+        $dto = new CreateAccessTokenDto($userCreated, $name, $abilities, $expiresAt);
 
         $repository = new EloquentAccessTokenRepository();
         $newAccessToken = $repository->createToken($dto);

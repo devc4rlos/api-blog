@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO;
+namespace App\Dto;
 
 use InvalidArgumentException;
 
-abstract class AbstractUpdatePersistenceDTO
+abstract class AbstractUpdatePersistenceDto
 {
     public array $changes;
 

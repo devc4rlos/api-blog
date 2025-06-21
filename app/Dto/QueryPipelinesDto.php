@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO;
+namespace App\Dto;
 
 use App\Repositories\QueryPipelines\QueryPipelineInterface;
 
-class QueryPipelinesDTO
+class QueryPipelinesDto
 {
     private array $pipelines = [];
 

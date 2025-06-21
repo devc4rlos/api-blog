@@ -2,18 +2,18 @@
 
 namespace App\Contracts\Services;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\User\CreateUserInputDTO;
-use App\DTO\User\UpdateUserInputDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\User\CreateUserInputDto;
+use App\Dto\User\UpdateUserInputDto;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 interface UserServiceInterface
 {
-    public function all(FiltersDTO $filtersDTO): LengthAwarePaginator;
-    public function findById(int $id, FiltersDTO $filtersDTO): User;
-    public function create(CreateUserInputDTO $userDTO): User;
-    public function update(User $user, UpdateUserInputDTO $userDTO): bool;
+    public function all(FiltersDto $filtersDTO): LengthAwarePaginator;
+    public function findById(int $id, FiltersDto $filtersDTO): User;
+    public function create(CreateUserInputDto $userDTO): User;
+    public function update(User $user, UpdateUserInputDto $userDTO): bool;
     public function delete(User $user): bool;
     public function findByEmail(string $email): ?User;
 }

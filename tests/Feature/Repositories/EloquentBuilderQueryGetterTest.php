@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Repositories;
 
-use App\DTO\Filter\FiltersDTO;
-use App\DTO\QueryPipelinesDTO;
+use App\Dto\Filter\FiltersDto;
+use App\Dto\QueryPipelinesDto;
 use App\Models\User;
 use App\Repositories\EloquentBuilderQueryGetter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -23,8 +23,8 @@ class EloquentBuilderQueryGetterTest extends TestCase
         User::factory()->count(20)->create();
 
         $query = User::query();
-        $filtersDTO = new FiltersDTO(sortBy: 'id', sortDirection:  'desc');
-        $pipelinesDTO = new QueryPipelinesDTO(SortingPipelineStub::class);
+        $filtersDTO = new FiltersDto(sortBy: 'id', sortDirection:  'desc');
+        $pipelinesDTO = new QueryPipelinesDto(SortingPipelineStub::class);
 
         $this->queryGetter = new EloquentBuilderQueryGetter($query, $filtersDTO, $pipelinesDTO);
     }

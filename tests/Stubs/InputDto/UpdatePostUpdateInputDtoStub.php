@@ -3,7 +3,7 @@
 namespace Tests\Stubs\InputDto;
 
 use App\Contracts\Dto\InputDtoInterface;
-use App\DTO\BaseUpdateInputDto;
+use App\Dto\BaseUpdateInputDto;
 
 class UpdatePostUpdateInputDtoStub extends BaseUpdateInputDto implements InputDtoInterface
 {

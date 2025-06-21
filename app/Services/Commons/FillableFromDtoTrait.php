@@ -4,7 +4,7 @@ namespace App\Services\Commons;
 
 use Illuminate\Database\Eloquent\Model;
 
-trait FillableFromDTOTrait
+trait FillableFromDtoTrait
 {
     protected function fill(Model $entity, object $dto, array $fillableFields): object
     {

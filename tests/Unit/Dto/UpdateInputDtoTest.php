@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\DTO;
+namespace Tests\Unit\Dto;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\Stubs\InputDto\UpdatePostUpdateInputDtoStub;

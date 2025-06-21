@@ -2,13 +2,13 @@
 
 namespace App\Repositories\AccessToken;
 
-use App\DTO\AccessToken\CreateAccessTokenDTO;
+use App\Dto\AccessToken\CreateAccessTokenDto;
 use Laravel\Sanctum\NewAccessToken;
 use Laravel\Sanctum\PersonalAccessToken;
 
 class EloquentAccessTokenRepository implements AccessTokenRepositoryInterface
 {
-    public function createToken(CreateAccessTokenDTO $accessTokenDTO): NewAccessToken
+    public function createToken(CreateAccessTokenDto $accessTokenDTO): NewAccessToken
     {
         $user = $accessTokenDTO->user();
         return $user->createToken($accessTokenDTO->name(), $accessTokenDTO->abilities(), $accessTokenDTO->expiresAt());

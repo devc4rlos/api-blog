@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\V1;
 
 use App\Contracts\Services\UserServiceInterface;
-use App\DTO\Filter\FiltersRequestDTO;
-use App\DTO\User\CreateUserInputDTO;
-use App\DTO\User\UpdateUserInputDTO;
+use App\Dto\Filter\FiltersRequestDto;
+use App\Dto\User\CreateUserInputDto;
+use App\Dto\User\UpdateUserInputDto;
 use App\Facades\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Pagination\PaginatorLengthAwarePaginator;
@@ -28,7 +28,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
-        $users = $this->userService->all(new FiltersRequestDTO($request));
+        $users = $this->userService->all(new FiltersRequestDto($request));
 
         return ResponseApi::setMessage(__('controllers/user.index'))
             ->setResultResource(UserResource::collection($users))
@@ -38,7 +38,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function store(UserStoreRequest $request)
     {
-        $userDTO = new CreateUserInputDTO($request->name, $request->email, $request->password);
+        $userDTO = new CreateUserInputDto($request->name, $request->email, $request->password);
 
         $user = $this->userService->create($userDTO);
 
@@ -50,7 +50,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function show(User $user, Request $request)
     {
-        $user = $this->userService->findById($user->id, new FiltersRequestDTO($request));
+        $user = $this->userService->findById($user->id, new FiltersRequestDto($request));
 
         return ResponseApi::setMessage(__('controllers/user.show'))
             ->setResultResource(UserResource::make($user))
@@ -59,7 +59,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function update(User $user, UserUpdateRequest $request)
     {
-        $userDTO = new UpdateUserInputDTO($request->validated());
+        $userDTO = new UpdateUserInputDto($request->validated());
 
         $this->userService->update($user, $userDTO);
 

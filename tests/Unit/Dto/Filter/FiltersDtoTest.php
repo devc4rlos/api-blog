@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\DTO\Filter;
+namespace Tests\Unit\Dto\Filter;
 
-use App\DTO\Filter\FiltersDTO;
+use App\Dto\Filter\FiltersDto;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
-class FiltersDTOTest extends TestCase
+class FiltersDtoTest extends TestCase
 {
     public static function provideFilters(): array
     {
@@ -22,7 +22,7 @@ class FiltersDTOTest extends TestCase
     #[DataProvider('provideFilters')]
     public function test_should_add_filter(array $parameters, string $expected, string $methodGetter)
     {
-        $filter = new FiltersDTO(...$parameters);
+        $filter = new FiltersDto(...$parameters);
         $this->assertSame($expected, $filter->{$methodGetter}());
     }
 }

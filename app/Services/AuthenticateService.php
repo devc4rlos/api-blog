@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Contracts\Services\AuthenticateServiceInterface;
-use App\DTO\AccessToken\CreateAccessTokenDTO;
-use App\DTO\Auth\AuthCredentialDTO;
+use App\Dto\AccessToken\CreateAccessTokenDto;
+use App\Dto\Auth\AuthCredentialDto;
 use App\Models\User;
 use App\Repositories\AccessToken\AccessTokenRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
@@ -27,7 +27,7 @@ class AuthenticateService implements AuthenticateServiceInterface
     /**
      * @throws AuthenticationException
      */
-    public function authenticate(AuthCredentialDTO $credentialDTO): string
+    public function authenticate(AuthCredentialDto $credentialDTO): string
     {
         $user = $this->userRepository->findByEmail($credentialDTO->email());
 
@@ -35,7 +35,7 @@ class AuthenticateService implements AuthenticateServiceInterface
             throw new AuthenticationException(__('services/authenticate.invalid_credentials'));
         }
 
-        $dto = new CreateAccessTokenDTO($user, 'api', ['*'], now()->addMinutes(config('sanctum.expiration')));
+        $dto = new CreateAccessTokenDto($user, 'api', ['*'], now()->addMinutes(config('sanctum.expiration')));
         $newAccessToken = $this->repository->createToken($dto);
 
         return $newAccessToken->plainTextToken;

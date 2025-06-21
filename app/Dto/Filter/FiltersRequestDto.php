@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DTO\Filter;
+namespace App\Dto\Filter;
 
 use Illuminate\Http\Request;
 
-class FiltersRequestDTO extends FiltersDTO
+class FiltersRequestDto extends FiltersDto
 {
     public function __construct(
         Request $request

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO\Filter;
+namespace App\Dto\Filter;
 
-class FiltersDTO
+class FiltersDto
 {
     private ?string $search;
     private ?string $sortBy;
