@@ -76,16 +76,19 @@ class UserController
      *             @OA\Property(
      *                 property="email",
      *                 type="string",
+     *                 format="email",
      *                 description="A unique email address for the user. This will be used for login.",
      *             ),
      *             @OA\Property(
      *                 property="password",
      *                 type="string",
+     *                 format="password",
      *                 description="The user's password. Must be at least 8 characters long.",
      *             ),
      *             @OA\Property(
      *                 property="password_confirmation",
      *                 type="string",
+     *                 format="password",
      *                 description="Confirmation of the user's password. Must match the 'password' field.",
      *             ),
      *             @OA\Property(
@@ -123,30 +126,28 @@ class UserController
      *               ),
      *               @OA\Property(
      *                   property="errors",
-     *                   type="array",
+     *                   type="object",
      *                   description="An object containing validation errors for each field.",
-     *                   @OA\Items(
-     *                       @OA\Property(
-     *                           property="name",
-     *                           type="array",
-     *                           @OA\Items(
-     *                               @OA\Schema(type="string")
-     *                           )
-     *                       ),
-     *                       @OA\Property(
-     *                           property="email",
-     *                           type="array",
-     *                           @OA\Items(
-     *                               @OA\Schema(type="string")
-     *                           )
-     *                       ),
-     *                       @OA\Property(
-     *                           property="password",
-     *                           type="array",
-     *                           @OA\Items(
-     *                               @OA\Schema(type="string")
-     *                           )
-     *                       ),
+     *                   @OA\Property(
+     *                       property="name",
+     *                       type="array",
+     *                       @OA\Items(
+     *                           @OA\Schema(type="string")
+     *                       )
+     *                   ),
+     *                   @OA\Property(
+     *                       property="email",
+     *                       type="array",
+     *                       @OA\Items(
+     *                           @OA\Schema(type="string")
+     *                       )
+     *                   ),
+     *                   @OA\Property(
+     *                       property="password",
+     *                       type="array",
+     *                       @OA\Items(
+     *                           @OA\Schema(type="string")
+     *                       )
      *                   ),
      *               ),
      *         ),
@@ -245,6 +246,7 @@ class UserController
      *             @OA\Property(
      *                 property="email",
      *                 type="string",
+     *                 format="email",
      *                 description="The new unique email address for the user.",
      *             ),
      *             @OA\Property(
@@ -287,32 +289,30 @@ class UserController
      *          description="The request data failed validation.",
      *          @OA\JsonContent(
      *              type="object",
-     *               @OA\Property(
-     *                    property="message",
-     *                    type="string",
-     *                    example="The given data was invalid.",
-     *                ),
-     *                @OA\Property(
-     *                    property="errors",
-     *                    type="array",
-     *                    description="An object containing validation errors for each field.",
-     *                    @OA\Items(
-     *                        @OA\Property(
-     *                            property="name",
-     *                            type="array",
-     *                            @OA\Items(
-     *                                @OA\Schema(type="string")
-     *                            )
-     *                        ),
-     *                        @OA\Property(
-     *                            property="email",
-     *                            type="array",
-     *                            @OA\Items(
-     *                                @OA\Schema(type="string")
-     *                            )
-     *                        ),
-     *                    ),
-     *                ),
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="The given data was invalid.",
+     *              ),
+     *              @OA\Property(
+     *                  property="errors",
+     *                  type="object",
+     *                  description="An object containing validation errors for each field.",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Schema(type="string")
+     *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="email",
+     *                      type="array",
+     *                      @OA\Items(
+     *                          @OA\Schema(type="string")
+     *                      )
+     *                  ),
+     *              ),
      *          ),
      *      ),
      *     @OA\Response(
