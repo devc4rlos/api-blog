@@ -6,6 +6,7 @@ use App\Contracts\Services\UserServiceInterface;
 use App\Dto\Filter\FiltersRequestDto;
 use App\Dto\Input\User\CreateUserInputDto;
 use App\Dto\Input\User\UpdateUserInputDto;
+use App\Exceptions\BusinessRuleException;
 use App\Facades\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Pagination\PaginatorLengthAwarePaginator;
@@ -13,12 +14,15 @@ use App\Http\Requests\V1\User\UserStoreRequest;
 use App\Http\Requests\V1\User\UserUpdateRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
 class UserController extends Controller implements HasMiddleware
 {
+    use AuthorizesRequests;
+
     private UserServiceInterface $userService;
 
     public function __construct(UserServiceInterface $userService)
@@ -28,6 +32,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function index(Request $request)
     {
+        $this->authorize('viewAny', User::class);
+
         $users = $this->userService->all(new FiltersRequestDto($request));
 
         return ResponseApi::setMessage(__('controllers/user.index'))
@@ -38,7 +44,9 @@ class UserController extends Controller implements HasMiddleware
 
     public function store(UserStoreRequest $request)
     {
-        $userDTO = new CreateUserInputDto($request->name, $request->email, $request->password);
+        $this->authorize('create', User::class);
+
+        $userDTO = new CreateUserInputDto($request->name, $request->email, $request->password, $request->get('is_admin', false));
 
         $user = $this->userService->create($userDTO);
 
@@ -50,6 +58,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function show(User $user, Request $request)
     {
+        $this->authorize('view', $user);
+
         $user = $this->userService->findById($user->id, new FiltersRequestDto($request));
 
         return ResponseApi::setMessage(__('controllers/user.show'))
@@ -59,6 +69,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function update(User $user, UserUpdateRequest $request)
     {
+        $this->authorize('update', $user);
+
         $userDTO = new UpdateUserInputDto($request->validated());
 
         $this->userService->update($user, $userDTO);
@@ -70,7 +82,15 @@ class UserController extends Controller implements HasMiddleware
 
     public function destroy(User $user)
     {
-        $this->userService->delete($user);
+        $this->authorize('delete', $user);
+
+        try {
+            $this->userService->delete($user);
+        } catch (BusinessRuleException $e) {
+            return ResponseApi::setMessage($e->getMessage())
+                ->setCode(403)
+                ->response();
+        }
 
         return ResponseApi::setMessage(__('controllers/user.destroy'))
             ->setResultResource(UserResource::make($user))

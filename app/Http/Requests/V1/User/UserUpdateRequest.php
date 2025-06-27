@@ -14,6 +14,7 @@ class UserUpdateRequest extends BaseFormRequest
         return [
             'name' => ['sometimes', 'string', 'min:3', 'max:255'],
             'email' => ['sometimes', 'email', 'max:255', Rule::unique('users', 'email')->ignore($id)],
+            'is_admin' => ['sometimes', 'boolean'],
         ];
     }
 

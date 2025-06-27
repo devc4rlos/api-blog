@@ -14,6 +14,7 @@ class UserStoreRequest extends BaseFormRequest
             'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'confirmed', 'min:8', 'max:255'],
+            'is_admin' => ['sometimes', 'boolean'],
         ];
     }
 
