@@ -58,4 +58,9 @@ class EloquentUserRepository implements UserRepositoryInterface
     {
         return User::where('email', $email)->first();
     }
+
+    public function countAdmins(): int
+    {
+        return User::where('is_admin', true)->count();
+    }
 }

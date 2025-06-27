@@ -105,4 +105,14 @@ class EloquentUserRepositoryTest extends TestCase
         $this->assertSame($userCreated->id, $user->id);
         $this->assertSame($userCreated->email, $user->email);
     }
+
+    public function test_should_count_admins()
+    {
+        $numberAdminUsers = 10;
+        User::factory()->count($numberAdminUsers)->create(['is_admin' => true]);
+
+        $repository = new EloquentUserRepository();
+
+        $this->assertSame($numberAdminUsers, $repository->countAdmins());
+    }
 }

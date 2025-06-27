@@ -87,7 +87,7 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
         } catch (Exception $e) {
             $this->logger->error('Failed to flush user cache.', [
                 'reason' => $reason,
-                'tag' => $this->cacheTag ,
+                'tag' => $this->cacheTag,
                 'error' => $e->getMessage(),
             ]);
         }
@@ -96,5 +96,10 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
     public function findByEmail(string $email): ?User
     {
         return $this->repository->findByEmail($email);
+    }
+
+    public function countAdmins(): int
+    {
+        return $this->repository->countAdmins();
     }
 }

@@ -16,4 +16,5 @@ interface UserRepositoryInterface
     public function update(User $user, UpdateUserPersistenceDto $dto): bool;
     public function delete(User $user): bool;
     public function findByEmail(string $email): ?User;
+    public function countAdmins(): int;
 }
