@@ -41,8 +41,19 @@ class UserService implements UserServiceInterface
             'is_admin' => $userDTO->isAdmin(),
         ]);
 
-        $userPersistenceDTO = new CreateUserPersistenceDto($user->name, $user->email, $user->password, $user->is_admin);
-        return $this->userRepository->create($userPersistenceDTO);
+        return $this->createUser($user);
+    }
+
+    public function createStandardUser(CreateUserInputDto $userDTO): User
+    {
+        $user = new User([
+            'name' => $userDTO->name(),
+            'email' => $userDTO->email(),
+            'password' => $userDTO->password(),
+            'is_admin' => false,
+        ]);
+
+        return $this->createUser($user);
     }
 
     public function update(User $user, UpdateUserInputDto $userDTO): bool
@@ -69,5 +80,11 @@ class UserService implements UserServiceInterface
     public function findByEmail(string $email): ?User
     {
         return $this->userRepository->findByEmail($email);
+    }
+
+    private function createUser(User $user): User
+    {
+        $userPersistenceDTO = new CreateUserPersistenceDto($user->name, $user->email, $user->password, $user->is_admin);
+        return $this->userRepository->create($userPersistenceDTO);
     }
 }

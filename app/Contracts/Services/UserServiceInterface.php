@@ -17,6 +17,8 @@ interface UserServiceInterface
 
     public function create(CreateUserInputDto $userDTO): User;
 
+    public function createStandardUser(CreateUserInputDto $userDTO): User;
+
     public function update(User $user, UpdateUserInputDto $userDTO): bool;
 
     /**

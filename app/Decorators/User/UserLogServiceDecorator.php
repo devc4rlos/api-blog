@@ -61,6 +61,32 @@ class UserLogServiceDecorator implements UserServiceInterface
     /**
      * @throws Exception
      */
+    public function createStandardUser(CreateUserInputDto $userDTO): User
+    {
+        $this->logger->info('Starting standard user creation process.', [
+            'name' => $userDTO->name(),
+            'email' => $userDTO->email(),
+        ]);
+
+        try {
+            $createdUser = $this->service->createStandardUser($userDTO);
+
+            $this->logger->info('Standard user created successfully.', ['user_id' => $createdUser->id]);
+
+            return $createdUser;
+        } catch(Exception $e) {
+            $this->logger->error('Failed to create standard user.', [
+                'input_data' => ['name' => $userDTO->name(), 'email' => $userDTO->email()],
+                'exception' => $e->getMessage(),
+            ]);
+
+            throw $e;
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
     public function update(User $user, UpdateUserInputDto $userDTO): bool
     {
         $this->logger->info('Starting user update process.', ['user_id' => $user->id]);
