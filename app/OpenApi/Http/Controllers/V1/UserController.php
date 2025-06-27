@@ -42,17 +42,17 @@ class UserController
      *         ),
      *     ),
      *     @OA\Response(
-     *           response="404",
-     *           description="Requested page is out of range",
-     *           @OA\JsonContent(
-     *               type="object",
-     *               @OA\Property(
-     *                   property="message",
-     *                   type="string",
-     *                   example="Requested page (5) is out of range. The last page is 2.",
-     *               ),
-     *           ),
-     *       ),
+     *         response="404",
+     *         ref="#/components/responses/NotFoundRangePage"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
+     *     ),
      * )
      */
     public function index(){}
@@ -87,6 +87,11 @@ class UserController
      *                 property="password_confirmation",
      *                 type="string",
      *                 description="Confirmation of the user's password. Must match the 'password' field.",
+     *             ),
+     *             @OA\Property(
+     *                 property="is_admin",
+     *                 type="bool",
+     *                 description="Determines if the user has administrator permissions.",
      *             ),
      *         ),
      *     ),
@@ -146,6 +151,14 @@ class UserController
      *               ),
      *         ),
      *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
+     *     ),
      * )
      */
     public function store(){}
@@ -184,17 +197,25 @@ class UserController
      *         ),
      *     ),
      *     @OA\Response(
-     *          response="404",
-     *          description="The user with the specified ID was not found.",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(
-     *                  property="message",
-     *                  type="string",
-     *                  example="The resource could not be found.",
-     *              ),
-     *          ),
-     *      ),
+     *         response="404",
+     *         description="The user with the specified ID was not found.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="The resource could not be found.",
+     *             ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
+     *     ),
      * )
      */
     public function show(){}
@@ -225,6 +246,11 @@ class UserController
      *                 property="email",
      *                 type="string",
      *                 description="The new unique email address for the user.",
+     *             ),
+     *             @OA\Property(
+     *                 property="is_admin",
+     *                 type="bool",
+     *                 description="Determines if the user has administrator permissions.",
      *             ),
      *         ),
      *     ),
@@ -289,6 +315,14 @@ class UserController
      *                ),
      *          ),
      *      ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
+     *     ),
      * )
      */
     public function update(){}
@@ -333,6 +367,14 @@ class UserController
      *                 example="The resource could not be found.",
      *             ),
      *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
      *     ),
      * )
      */

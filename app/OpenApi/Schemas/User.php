@@ -21,6 +21,10 @@ use OpenApi\Annotations as OA;
  *         type="string",
  *     ),
  *     @OA\Property(
+ *         property="is_admin",
+ *         type="bool",
+ *     ),
+ *     @OA\Property(
  *         property="created_at",
  *         type="datetime",
  *     ),
