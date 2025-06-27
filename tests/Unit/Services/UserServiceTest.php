@@ -67,6 +67,22 @@ class UserServiceTest extends TestCase
         $service->create($dto);
     }
 
+    public function test_should_create_standard_user()
+    {
+        $user = Mockery::mock(User::class);
+
+        $dto = Mockery::mock(CreateUserInputDto::class);
+        $dto->shouldReceive('name')->once()->andReturn('name');
+        $dto->shouldReceive('email')->once()->andReturn('email');
+        $dto->shouldReceive('password')->once()->andReturn('password');
+
+        $this->repository->shouldReceive('create')
+            ->andReturn($user)
+            ->once();
+        $service = new UserService($this->repository);
+        $service->createStandardUser($dto);
+    }
+
     public function test_should_update_user()
     {
         $user = Mockery::mock(User::class);
