@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Facades\ResponseApi;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserIsAdminMiddleware
 {
@@ -13,8 +14,14 @@ class UserIsAdminMiddleware
         $user = auth()->user();
 
         if (!$user->isAdmin()) {
-            return ResponseApi::setMessage('Unauthenticated.')
-                ->setCode(401)
+            Log::warning("Attempted unauthorized access to the admin route.", [
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'path' => $request->path(),
+            ]);
+
+            return ResponseApi::setMessage("You don't have permission to perform this action.")
+                ->setCode(403)
                 ->response();
         }
 
