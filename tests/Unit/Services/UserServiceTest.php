@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Input\User\CreateUserInputDto;
 use App\Dto\Input\User\UpdateUserInputDto;
+use App\Exceptions\BusinessRuleException;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Services\UserService;
@@ -79,13 +80,29 @@ class UserServiceTest extends TestCase
         $service->update($user, $dto);
     }
 
+    /**
+     * @throws BusinessRuleException
+     */
     public function test_should_delete_user()
     {
         $user = Mockery::mock(User::class);
+        $user->shouldReceive('isAdmin')->once()->andReturn(false);
 
         $this->repository->shouldReceive('delete')
-            ->andReturn(true)
-            ->once();
+            ->once()
+            ->andReturn(true);
+
+        $service = new UserService($this->repository);
+        $service->delete($user);
+    }
+
+    public function test_should_throw_exception_business_rule_when_trying_to_remove_the_last_admin()
+    {
+        $this->expectException(BusinessRuleException::class);
+        $user = Mockery::mock(User::class);
+        $user->shouldReceive('isAdmin')->once()->andReturn(true);
+
+        $this->repository->shouldReceive('countAdmins')->once()->andReturn(1);
 
         $service = new UserService($this->repository);
         $service->delete($user);

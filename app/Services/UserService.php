@@ -8,6 +8,7 @@ use App\Dto\Input\User\CreateUserInputDto;
 use App\Dto\Input\User\UpdateUserInputDto;
 use App\Dto\Persistence\User\CreateUserPersistenceDto;
 use App\Dto\Persistence\User\UpdateUserPersistenceDto;
+use App\Exceptions\BusinessRuleException;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -53,8 +54,15 @@ class UserService implements UserServiceInterface
         return $this->userRepository->update($user, new UpdateUserPersistenceDto($userEntity->toArray()));
     }
 
+    /**
+     * @throws BusinessRuleException
+     */
     public function delete(User $user): bool
     {
+        if ($user->isAdmin() && $this->userRepository->countAdmins() <= 1) {
+            throw new BusinessRuleException('You cannot remove the last administrator from the system.');
+        }
+
         return $this->userRepository->delete($user);
     }
 
