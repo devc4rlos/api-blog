@@ -170,6 +170,12 @@ return [
         */
         'securityDefinitions' => [
             'securitySchemes' => [
+                'sanctum' => [
+                    'type' => 'http',
+                    'scheme' => 'bearer',
+                    'bearerFormat' => 'JWT',
+                    'description' => 'Sanctum authentication (Bearer Token for API routes).',
+                ],
                 /*
                  * Examples of Security schemes
                  */
@@ -217,6 +223,7 @@ return [
                 */
             ],
             'security' => [
+                ['sanctum' => []],
                 /*
                  * Examples of Securities
                  */
