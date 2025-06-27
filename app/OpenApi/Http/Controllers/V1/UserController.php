@@ -12,6 +12,9 @@ class UserController
      *     summary="Retrieve a paginated list of users",
      *     description="Fetches a list of all users, allowing for pagination, searching, sorting, and relationship embedding. This endpoint is useful for administrative views or user directories.",
      *     tags={"Users"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\Parameter(ref="#/components/parameters/pageFilter"),
      *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
@@ -63,6 +66,9 @@ class UserController
      *     summary="Create a new user",
      *     description="Registers a new user in the system with the provided information.",
      *     tags={"Users"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\RequestBody(
      *         description="The data required to create a new user.",
      *         required=true,
@@ -170,6 +176,9 @@ class UserController
      *     summary="Retrieve a specific user by ID",
      *     description="Fetches detailed information for a single user identified by their unique ID.",
      *     tags={"Users"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\Parameter(
      *         description="The unique identifier of the user.",
      *         in="path",
@@ -227,6 +236,9 @@ class UserController
      *     summary="Update an existing user's information",
      *     description="Updates the details of an existing user. Only the fields provided in the request body will be updated.",
      *     tags={"Users"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\Parameter(
      *         description="The unique identifier of the user to be updated.",
      *         in="path",
@@ -333,6 +345,9 @@ class UserController
      *     summary="Delete a specific user",
      *     description="Permanently deletes a user from the system. This action is irreversible.",
      *     tags={"Users"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\Parameter(
      *         description="The unique identifier of the user to be deleted.",
      *         in="path",

@@ -104,6 +104,9 @@ class AuthenticateController {
      *     summary="User Logout",
      *     description="Invalidates the authenticated user's current access token, effectively logging them out.",
      *     tags={"Authentication"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
      *     @OA\Response(
      *         response="200",
      *         description="Logout successful. The access token has been invalidated.",

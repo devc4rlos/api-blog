@@ -223,7 +223,6 @@ return [
                 */
             ],
             'security' => [
-                ['sanctum' => []],
                 /*
                  * Examples of Securities
                  */
