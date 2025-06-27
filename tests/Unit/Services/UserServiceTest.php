@@ -57,6 +57,7 @@ class UserServiceTest extends TestCase
         $dto->shouldReceive('name')->once()->andReturn('name');
         $dto->shouldReceive('email')->once()->andReturn('email');
         $dto->shouldReceive('password')->once()->andReturn('password');
+        $dto->shouldReceive('isAdmin')->once()->andReturn(false);
 
         $this->repository->shouldReceive('create')
             ->andReturn($user)

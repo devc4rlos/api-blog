@@ -8,6 +8,6 @@ class UpdateUserInputDto extends BaseUpdateInputDto
 {
     public function allowedFields(): array
     {
-        return ['name', 'email'];
+        return ['name', 'email', 'is_admin'];
     }
 }

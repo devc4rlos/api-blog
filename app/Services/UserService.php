@@ -37,9 +37,10 @@ class UserService implements UserServiceInterface
             'name' => $userDTO->name(),
             'email' => $userDTO->email(),
             'password' => $userDTO->password(),
+            'is_admin' => $userDTO->isAdmin(),
         ]);
 
-        $userPersistenceDTO = new CreateUserPersistenceDto($user->name, $user->email, $user->password);
+        $userPersistenceDTO = new CreateUserPersistenceDto($user->name, $user->email, $user->password, $user->is_admin);
         return $this->userRepository->create($userPersistenceDTO);
     }
 
