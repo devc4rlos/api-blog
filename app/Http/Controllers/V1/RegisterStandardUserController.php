@@ -7,7 +7,7 @@ use App\Dto\Input\User\CreateUserInputDto;
 use App\Facades\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\User\UserStoreRequest;
-use App\Http\Resources\V1\UserResource;
+use App\Http\Resources\V1\StandardUserResource;
 
 class RegisterStandardUserController extends Controller
 {
@@ -25,7 +25,7 @@ class RegisterStandardUserController extends Controller
 
         return ResponseApi::setMessage(__('controllers/user.store'))
             ->setCode(201)
-            ->setResultResource(UserResource::make($user))
+            ->setResultResource(StandardUserResource::make($user))
             ->response();
     }
 }
