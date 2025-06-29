@@ -7,7 +7,7 @@ use App\Models\PasswordReset;
 
 class EloquentPasswordResetRepositoryRepository implements PasswordResetRepositoryInterface
 {
-    public function findLastCodeByEmail(string $email): PasswordReset
+    public function findLastCodeByEmail(string $email): ?PasswordReset
     {
         return PasswordReset::where('email', $email)->get()->last();
     }
