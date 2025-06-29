@@ -4,7 +4,7 @@ namespace Tests\Feature\Repositories\PasswordReset;
 
 use App\Dto\Persistence\PasswordReset\CreatePasswordResetPersistenceDto;
 use App\Models\PasswordReset;
-use App\Repositories\PasswordReset\EloquentPasswordResetRepository;
+use App\Repositories\PasswordReset\EloquentPasswordResetRepositoryRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -20,7 +20,7 @@ class EloquentPasswordResetRepositoryTest extends TestCase
             'email' => $email,
         ])->firstOrFail();
 
-        $repository = new EloquentPasswordResetRepository();
+        $repository = new EloquentPasswordResetRepositoryRepository();
         $recordFound = $repository->findLastCodeByEmail($email);
 
         $this->assertSame($resetRecord->email, $recordFound->email);
@@ -30,7 +30,7 @@ class EloquentPasswordResetRepositoryTest extends TestCase
     public function test_should_create_password_reset()
     {
         $dto = new CreatePasswordResetPersistenceDto(fake()->email(), fake()->password());
-        $repository = new EloquentPasswordResetRepository();
+        $repository = new EloquentPasswordResetRepositoryRepository();
 
         $repository->create($dto);
 
@@ -41,7 +41,7 @@ class EloquentPasswordResetRepositoryTest extends TestCase
     public function test_should_delete_password_reset()
     {
         $resetRecord = PasswordReset::factory()->create()->firstOrFail();
-        $repository = new EloquentPasswordResetRepository();
+        $repository = new EloquentPasswordResetRepositoryRepository();
 
         $repository->delete($resetRecord->token);
 

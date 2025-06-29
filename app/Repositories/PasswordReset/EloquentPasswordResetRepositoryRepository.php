@@ -5,7 +5,7 @@ namespace App\Repositories\PasswordReset;
 use App\Dto\Persistence\PasswordReset\CreatePasswordResetPersistenceDto;
 use App\Models\PasswordReset;
 
-class EloquentPasswordResetRepository implements PasswordResetInterface
+class EloquentPasswordResetRepositoryRepository implements PasswordResetRepositoryInterface
 {
     public function findLastCodeByEmail(string $email): PasswordReset
     {

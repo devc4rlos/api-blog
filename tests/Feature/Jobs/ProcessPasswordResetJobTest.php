@@ -6,7 +6,7 @@ use App\Dto\Persistence\PasswordReset\CreatePasswordResetPersistenceDto;
 use App\Jobs\ProcessPasswordResetJob;
 use App\Models\User;
 use App\Notifications\ResetPasswordNotification;
-use App\Repositories\PasswordReset\PasswordResetInterface;
+use App\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use App\Services\UserService;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -28,7 +28,7 @@ class ProcessPasswordResetJobTest extends TestCase
         $user = User::factory()->create();
 
         $mockUserService = Mockery::mock(UserService::class);
-        $mockRepository = Mockery::mock(PasswordResetInterface::class);
+        $mockRepository = Mockery::mock(PasswordResetRepositoryInterface::class);
 
         $mockUserService->shouldReceive('findByEmail')->once()->with($user->email)->andReturn($user);
 
@@ -57,7 +57,7 @@ class ProcessPasswordResetJobTest extends TestCase
         $nonExistentEmail = 'ninguem@exemplo.com';
 
         $mockUserService = Mockery::mock(UserService::class);
-        $mockRepository = Mockery::mock(PasswordResetInterface::class);
+        $mockRepository = Mockery::mock(PasswordResetRepositoryInterface::class);
 
         $mockUserService->shouldReceive('findByEmail')->once()->with($nonExistentEmail)->andReturn(null);
 

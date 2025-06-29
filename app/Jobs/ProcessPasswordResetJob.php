@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Contracts\Services\UserServiceInterface;
 use App\Dto\Persistence\PasswordReset\CreatePasswordResetPersistenceDto;
 use App\Helpers\GenerateCodeHelper;
-use App\Repositories\PasswordReset\PasswordResetInterface;
+use App\Repositories\PasswordReset\PasswordResetRepositoryInterface;
 use Hash;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,7 +19,7 @@ class ProcessPasswordResetJob implements ShouldQueue
 
     public function __construct(private readonly string $email) {}
 
-    public function handle(UserServiceInterface $userService, PasswordResetInterface $repository): void
+    public function handle(UserServiceInterface $userService, PasswordResetRepositoryInterface $repository): void
     {
         $user = $userService->findByEmail($this->email);
 
