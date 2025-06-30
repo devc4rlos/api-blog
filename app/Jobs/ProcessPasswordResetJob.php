@@ -26,6 +26,7 @@ class ProcessPasswordResetJob implements ShouldQueue
         if ($user) {
             $code = GenerateCodeHelper::generate();
             $dto = new CreatePasswordResetPersistenceDto($this->email, Hash::make($code));
+            $repository->deleteCodesByEmail($this->email);
             $repository->create($dto);
             $user->sendPasswordResetNotification($code);
         }
