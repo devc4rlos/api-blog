@@ -37,6 +37,7 @@ class ProcessPasswordResetJobTest extends TestCase
             ->with(Mockery::on(function ($dto) use ($user) {
                 return $dto instanceof CreatePasswordResetPersistenceDto && $dto->email() === $user->email;
             }));
+        $mockRepository->shouldReceive('deleteCodesByEmail')->once()->with($user->email);
 
         Hash::shouldReceive('make')->once()->andReturn('hashed_code');
 
