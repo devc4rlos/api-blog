@@ -2,6 +2,7 @@
 
 use App\Facades\ResponseApi;
 use App\Http\Controllers\V1\Auth\AuthenticateController;
+use App\Http\Controllers\V1\PasswordResetController;
 use App\Http\Controllers\V1\RegisterStandardUserController;
 use App\Http\Controllers\V1\UserController;
 
@@ -14,6 +15,8 @@ Route::get('/', function () {
 
 Route::post('/login', [AuthenticateController::class, 'login']);
 Route::post('/register', RegisterStandardUserController::class);
+Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
+Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
 
 Route::middleware(['auth:sanctum', 'auth.admin'])->group(function () {
     Route::apiResource('users', UserController::class);
