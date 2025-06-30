@@ -21,6 +21,8 @@ interface UserServiceInterface
 
     public function update(User $user, UpdateUserInputDto $userDTO): bool;
 
+    public function updatePassword(User $user, string $password): bool;
+
     /**
      * @throws BusinessRuleException
      */

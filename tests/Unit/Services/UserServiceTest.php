@@ -96,6 +96,18 @@ class UserServiceTest extends TestCase
         $service->update($user, $dto);
     }
 
+    public function test_should_update_password_user()
+    {
+        $user = Mockery::mock(User::class);
+        $password = fake()->password(8);
+
+        $this->repository->shouldReceive('update')
+            ->andReturn(true)
+            ->once();
+        $service = new UserService($this->repository);
+        $service->updatePassword($user, $password);
+    }
+
     /**
      * @throws BusinessRuleException
      */

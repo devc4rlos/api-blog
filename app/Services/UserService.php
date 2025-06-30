@@ -65,6 +65,13 @@ class UserService implements UserServiceInterface
         return $this->userRepository->update($user, new UpdateUserPersistenceDto($userEntity->toArray()));
     }
 
+    public function updatePassword(User $user, string $password): bool
+    {
+        $userEntity = new User(['password' => $password]);
+
+        return $this->userRepository->update($user, new UpdateUserPersistenceDto(['password' => $userEntity->password]));
+    }
+
     /**
      * @throws BusinessRuleException
      */

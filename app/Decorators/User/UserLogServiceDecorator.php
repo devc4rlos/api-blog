@@ -139,4 +139,9 @@ class UserLogServiceDecorator implements UserServiceInterface
     {
         return $this->service->findByEmail($email);
     }
+
+    public function updatePassword(User $user, string $password): bool
+    {
+        return $this->service->updatePassword($user, $password);
+    }
 }
