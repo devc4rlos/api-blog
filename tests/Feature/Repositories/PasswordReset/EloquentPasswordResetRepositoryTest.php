@@ -43,7 +43,7 @@ class EloquentPasswordResetRepositoryTest extends TestCase
         $resetRecord = PasswordReset::factory()->create()->firstOrFail();
         $repository = new EloquentPasswordResetRepositoryRepository();
 
-        $repository->delete($resetRecord->token);
+        $repository->deleteCodesByEmail($resetRecord->email);
 
         $this->assertDatabaseCount('password_reset_tokens', 0);
         $this->assertDatabaseMissing('password_reset_tokens', ['id' => $resetRecord->id]);

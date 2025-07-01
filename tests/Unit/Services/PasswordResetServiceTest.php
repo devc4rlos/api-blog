@@ -53,7 +53,7 @@ class PasswordResetServiceTest extends TestCase
         $passwordReset->created_at = now()->modify('-59 minutes');
 
         $this->repository->shouldReceive('findLastCodeByEmail')->once()->with($dto->email())->andReturn($passwordReset);
-        $this->repository->shouldReceive('delete')->once();
+        $this->repository->shouldReceive('deleteCodesByEmail')->once();
 
         $this->userService->shouldReceive('findByEmail')->once()->with($dto->email())->andReturn($user);
         $this->userService->shouldReceive('updatePassword')->once();

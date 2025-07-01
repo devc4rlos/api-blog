@@ -39,7 +39,7 @@ class PasswordResetService implements PasswordResetServiceInterface
         $user = $this->userService->findByEmail($passwordResetDto->email());
         $this->userService->updatePassword($user, $passwordResetDto->password());
 
-        $this->repository->delete($passwordResetDto->code());
+        $this->repository->deleteCodesByEmail($passwordResetDto->email());
     }
 
     private function checkCodeValidity(PasswordReset $passwordReset, string $code): bool

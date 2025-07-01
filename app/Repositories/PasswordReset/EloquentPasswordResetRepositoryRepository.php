@@ -20,11 +20,6 @@ class EloquentPasswordResetRepositoryRepository implements PasswordResetReposito
         ]);
     }
 
-    public function delete(string $code): bool
-    {
-        return PasswordReset::where('token', $code)->delete();
-    }
-
     public function deleteCodesByEmail(string $email): bool
     {
         return PasswordReset::where('email', $email)->delete();
