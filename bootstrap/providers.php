@@ -8,4 +8,5 @@ return [
     App\Providers\Auth\AuthenticateServiceProvider::class,
     App\Providers\Auth\AccessTokenRepositoryServiceProvider::class,
     App\Providers\PasswordReset\PasswordResetRepositoryServiceProvider::class,
+    App\Providers\RateLimitingApiServiceProvider::class,
 ];
