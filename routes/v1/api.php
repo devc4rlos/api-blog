@@ -7,10 +7,12 @@ use App\Http\Controllers\V1\PasswordResetController;
 use App\Http\Controllers\V1\RegisterStandardUserController;
 use App\Http\Controllers\V1\UserController;
 
-Route::post('/login', [AuthenticateController::class, 'login']);
-Route::post('/register', RegisterStandardUserController::class);
-Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
-Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+Route::middleware(['throttle:auth'])->group(function () {
+    Route::post('/login', [AuthenticateController::class, 'login']);
+    Route::post('/register', RegisterStandardUserController::class);
+    Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
+    Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+});
 
 Route::middleware(['throttle:api'])->group(function () {
     Route::get('/', function () {
