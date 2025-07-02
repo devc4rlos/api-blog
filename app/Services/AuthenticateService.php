@@ -35,7 +35,7 @@ class AuthenticateService implements AuthenticateServiceInterface
             throw new AuthenticationException(__('services/authenticate.invalid_credentials'));
         }
 
-        $dto = new CreateAccessTokenPersistenceDto($user, 'api', ['*'], now()->addMinutes(config('sanctum.expiration')));
+        $dto = new CreateAccessTokenPersistenceDto($user, 'api', [], now()->addMinutes(config('sanctum.expiration')));
         $newAccessToken = $this->repository->createToken($dto);
 
         return $newAccessToken->plainTextToken;
