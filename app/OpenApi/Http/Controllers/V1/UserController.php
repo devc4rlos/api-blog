@@ -56,6 +56,10 @@ class UserController
      *         response="403",
      *         ref="#/components/responses/Forbidden"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function index(){}
@@ -166,6 +170,10 @@ class UserController
      *         response="403",
      *         ref="#/components/responses/Forbidden"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function store(){}
@@ -226,6 +234,10 @@ class UserController
      *         response="403",
      *         ref="#/components/responses/Forbidden"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function show(){}
@@ -335,6 +347,10 @@ class UserController
      *         response="403",
      *         ref="#/components/responses/Forbidden"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function update(){}
@@ -391,6 +407,10 @@ class UserController
      *         response="403",
      *         ref="#/components/responses/Forbidden"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function destroy(){}

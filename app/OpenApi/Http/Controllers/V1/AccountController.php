@@ -39,6 +39,10 @@ class AccountController
      *          response="401",
      *          ref="#/components/responses/Unauthenticated"
      *      ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function show(){}
@@ -128,6 +132,10 @@ class AccountController
      *          response="401",
      *          ref="#/components/responses/Unauthenticated"
      *      ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function update(){}
@@ -165,6 +173,10 @@ class AccountController
      *         response="401",
      *         ref="#/components/responses/Unauthenticated"
      *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
      * )
      */
     public function destroy(){}

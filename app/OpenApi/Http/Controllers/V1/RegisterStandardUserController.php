@@ -98,6 +98,10 @@ use OpenApi\Annotations as OA;
  *               ),
  *         ),
  *     ),
+ *     @OA\Response(
+ *         response="429",
+ *         ref="#/components/responses/TooManyRequests"
+ *     ),
  * )
  */
 class RegisterStandardUserController {}

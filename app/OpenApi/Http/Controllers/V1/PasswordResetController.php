@@ -62,6 +62,10 @@ class PasswordResetController
      *                ),
      *          ),
      *      ),
+     *     @OA\Response(
+     *         response="429",
+     *         ref="#/components/responses/TooManyRequests"
+     *     ),
      * )
      */
     public function forgotPassword(){}
@@ -134,6 +138,10 @@ class PasswordResetController
      *                    ),
      *                ),
      *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="429",
+     *         ref="#/components/responses/TooManyRequests"
      *     ),
      * )
      */
