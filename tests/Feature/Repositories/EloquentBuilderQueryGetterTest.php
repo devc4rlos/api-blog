@@ -25,8 +25,9 @@ class EloquentBuilderQueryGetterTest extends TestCase
         $query = User::query();
         $filtersDTO = new FiltersDto(sortBy: 'id', sortDirection:  'desc');
         $pipelinesDTO = new QueryPipelinesDto(SortingPipelineStub::class);
+        $model = User::getModel();
 
-        $this->queryGetter = new EloquentBuilderQueryGetter($query, $filtersDTO, $pipelinesDTO);
+        $this->queryGetter = new EloquentBuilderQueryGetter($query, $filtersDTO, $pipelinesDTO, $model);
     }
 
     public function test_should_apply_pipelines_and_return_paginated_results(): void

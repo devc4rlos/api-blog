@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Contracts\ModelCrudInterface;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\QueryPipeline\PayloadQueryPipelineDto;
 use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
@@ -18,17 +19,19 @@ class EloquentBuilderQueryGetter
     private Builder $query;
     private FiltersDto $filtersDTO;
     private QueryPipelinesDto $pipelinesDTO;
+    private ModelCrudInterface $model;
 
-    public function __construct(Builder $query, FiltersDto $filtersDTO, QueryPipelinesDto $pipelinesDTO)
+    public function __construct(Builder $query, FiltersDto $filtersDTO, QueryPipelinesDto $pipelinesDTO, ModelCrudInterface $model)
     {
         $this->query = $query;
         $this->filtersDTO = $filtersDTO;
         $this->pipelinesDTO = $pipelinesDTO;
+        $this->model = $model;
     }
 
     public function all(): LengthAwarePaginator
     {
-        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO);
+        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO, $this->model);
 
         return app(Pipeline::class)
             ->send($payload)
@@ -41,7 +44,7 @@ class EloquentBuilderQueryGetter
      */
     public function find($id)
     {
-        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO);
+        $payload = new PayloadQueryPipelineDto($this->query, $this->filtersDTO, $this->model);
 
         return app(Pipeline::class)
             ->send($payload)

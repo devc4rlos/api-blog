@@ -24,6 +24,7 @@ class EloquentUserRepository implements UserRepositoryInterface
             $this->model::query(),
             $filtersDTO,
             $this->model::pipelinesFindAll(),
+            $this->model,
         );
 
         return $builder->all();
@@ -34,7 +35,8 @@ class EloquentUserRepository implements UserRepositoryInterface
         $builder = new EloquentBuilderQueryGetter(
             $this->model::query(),
             $filtersDTO,
-            $this->model::pipelinesFindOne()
+            $this->model::pipelinesFindOne(),
+            $this->model,
         );
 
         return $builder->find($id);
