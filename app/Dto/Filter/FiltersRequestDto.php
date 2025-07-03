@@ -16,6 +16,7 @@ class FiltersRequestDto extends FiltersDto
             sortDirection: $request->get('sortDirection'),
             relationships: $request->get('relationships'),
             page: $request->get('page'),
+            searchBy: $request->get('searchBy'),
         );
     }
 }

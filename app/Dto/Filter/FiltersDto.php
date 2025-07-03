@@ -9,6 +9,7 @@ class FiltersDto
     private ?string $sortDirection;
     private ?string $relationships;
     private ?string $page;
+    private ?string $searchBy;
 
     public function __construct(
         ?string $search = null,
@@ -16,6 +17,7 @@ class FiltersDto
         ?string $sortDirection = null,
         ?string $relationships = null,
         ?string $page = null,
+        ?string $searchBy = null,
     )
     {
         $this->search = $search;
@@ -23,6 +25,7 @@ class FiltersDto
         $this->sortDirection = $sortDirection;
         $this->relationships = $relationships;
         $this->page = $page;
+        $this->searchBy = $searchBy;
     }
 
     public function search(): ?string
@@ -48,5 +51,10 @@ class FiltersDto
     public function page(): ?string
     {
         return $this->page;
+    }
+
+    public function searchBy(): ?string
+    {
+        return $this->searchBy;
     }
 }
