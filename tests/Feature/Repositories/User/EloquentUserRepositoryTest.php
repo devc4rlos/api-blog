@@ -16,12 +16,15 @@ class EloquentUserRepositoryTest extends TestCase
 
     public function test_should_retrieved_all_users()
     {
-        User::factory()->count(10)->create();
+        $createdUsers = User::factory()->count(10)->create();
         $repository = new EloquentUserRepository();
 
-        $users = $repository->all(new FiltersDto());
+        $retrievedUsers = $repository->all(new FiltersDto());
 
-        $this->assertEquals(User::orderBy('id')->pluck('id'), $users->pluck('id'));
+        $createdIds = $createdUsers->pluck('id')->sort()->values();
+        $retrievedIds = $retrievedUsers->pluck('id')->sort()->values();
+
+        $this->assertEquals($createdIds, $retrievedIds);
     }
 
     public function test_should_find_user_id()

@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Contracts\ModelCrudInterface;
+use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use App\Notifications\ResetPasswordNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use SensitiveParameter;
 
-class User extends Authenticatable
+class User extends Authenticatable implements ModelCrudInterface
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, HasApiTokens;
@@ -55,8 +58,18 @@ class User extends Authenticatable
         return $this->is_admin ?? false;
     }
 
-    public function sendPasswordResetNotification(#[\SensitiveParameter] $token): void
+    public function sendPasswordResetNotification(#[SensitiveParameter] $token): void
     {
         $this->notify(new ResetPasswordNotification($token, $this->name));
+    }
+
+    public static function pipelinesFindAll(): QueryPipelinesDto
+    {
+        return new QueryPipelinesDto();
+    }
+
+    public static function pipelinesFindOne(): QueryPipelinesDto
+    {
+        return new QueryPipelinesDto();
     }
 }

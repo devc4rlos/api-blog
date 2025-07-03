@@ -3,7 +3,6 @@
 namespace App\Repositories\User;
 
 use App\Dto\Filter\FiltersDto;
-use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use App\Dto\Persistence\User\CreateUserPersistenceDto;
 use App\Dto\Persistence\User\UpdateUserPersistenceDto;
 use App\Models\User;
@@ -12,12 +11,19 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentUserRepository implements UserRepositoryInterface
 {
+    private User $model;
+
+    public function __construct()
+    {
+        $this->model = app(User::class);
+    }
+
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
         $builder = new EloquentBuilderQueryGetter(
-            User::query(),
+            $this->model::query(),
             $filtersDTO,
-            new QueryPipelinesDto()
+            $this->model::pipelinesFindAll(),
         );
 
         return $builder->all();
@@ -26,9 +32,9 @@ class EloquentUserRepository implements UserRepositoryInterface
     public function findById(int $id, FiltersDto $filtersDTO): User
     {
         $builder = new EloquentBuilderQueryGetter(
-            User::query(),
+            $this->model::query(),
             $filtersDTO,
-            new QueryPipelinesDto()
+            $this->model::pipelinesFindOne()
         );
 
         return $builder->find($id);
@@ -36,7 +42,7 @@ class EloquentUserRepository implements UserRepositoryInterface
 
     public function create(CreateUserPersistenceDto $dto): User
     {
-        return User::create([
+        return $this->model::create([
             'name' => $dto->name(),
             'email' => $dto->email(),
             'password' => $dto->password(),
@@ -56,11 +62,11 @@ class EloquentUserRepository implements UserRepositoryInterface
 
     public function findByEmail(string $email): ?User
     {
-        return User::where('email', $email)->first();
+        return $this->model::where('email', $email)->first();
     }
 
     public function countAdmins(): int
     {
-        return User::where('is_admin', true)->count();
+        return $this->model::where('is_admin', true)->count();
     }
 }
