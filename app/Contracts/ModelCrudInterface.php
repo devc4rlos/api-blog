@@ -12,4 +12,5 @@ interface ModelCrudInterface
     public function defaultSortBy(): string;
     public function allowedSortDirection(): array;
     public function defaultSortDirection(): string;
+    public function allowedFieldSearch(): array;
 }

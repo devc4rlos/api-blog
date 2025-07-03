@@ -6,6 +6,7 @@ use App\Contracts\ModelCrudInterface;
 use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
 use App\Notifications\ResetPasswordNotification;
 use App\Repositories\QueryPipelines\OrderByQueryPipeline;
+use App\Repositories\QueryPipelines\SearchQueryPipeline;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -66,7 +67,7 @@ class User extends Authenticatable implements ModelCrudInterface
 
     public static function pipelinesFindAll(): QueryPipelinesDto
     {
-        return new QueryPipelinesDto(OrderByQueryPipeline::class);
+        return new QueryPipelinesDto(OrderByQueryPipeline::class, SearchQueryPipeline::class);
     }
 
     public static function pipelinesFindOne(): QueryPipelinesDto
@@ -92,5 +93,10 @@ class User extends Authenticatable implements ModelCrudInterface
     public function defaultSortDirection(): string
     {
         return 'desc';
+    }
+
+    public function allowedFieldSearch(): array
+    {
+        return ['email', 'name'];
     }
 }
