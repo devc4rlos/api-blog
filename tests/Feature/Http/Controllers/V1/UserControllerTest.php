@@ -61,6 +61,21 @@ class UserControllerTest extends TestCase
         $this->assertSame($retrievedCreatedIdUsers, $retrievedIdUsers);
     }
 
+    public function test_should_retrieved_all_users_with_filter_search()
+    {
+        $name = 'Testing';
+
+        $user = User::factory()->create(['name' => $name]);
+
+        $response = $this->get($this->endpoint . '?searchBy=name&search=' . $name);
+
+        $retrievedIdUsers = collect($response->json('data'))->pluck('id')->values()->toArray();
+
+        $response->assertStatus(200);
+        $this->assertSame(__('controllers/user.index'), $response->json('message'));
+        $this->assertTrue(in_array($user->id, $retrievedIdUsers));
+    }
+
     public function test_should_retrieved_one_user()
     {
         $user = User::factory()->create();
