@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Jobs;
+namespace Tests\Feature\Jobs;
 
 use App\Dto\Persistence\PasswordReset\CreatePasswordResetPersistenceDto;
 use App\Jobs\ProcessPasswordResetJob;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Repositories\AccessToken;
+namespace Tests\Feature\Repositories\AccessToken;
 
 use App\Dto\Persistence\AccessToken\CreateAccessTokenPersistenceDto;
 use App\Models\User;

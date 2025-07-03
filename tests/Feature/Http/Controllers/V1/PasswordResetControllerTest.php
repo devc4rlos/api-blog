@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Http\Controllers\V1;
+namespace Tests\Feature\Http\Controllers\V1;
 
 use App\Jobs\ProcessPasswordResetJob;
 use App\Models\PasswordReset;
