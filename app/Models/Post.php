@@ -6,10 +6,9 @@ use App\Enums\PostStatusEnum;
 use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
-class Post extends Model
+class Post extends ModelCrud
 {
     /** @use HasFactory<PostFactory> */
     use HasFactory, HasUlids;
@@ -41,5 +40,15 @@ class Post extends Model
             );
         }
         return null;
+    }
+
+    public function allowedSortBy(): array
+    {
+        return ['title', 'description', 'created_at'];
+    }
+
+    public function allowedFieldSearch(): array
+    {
+        return ['title', 'slug', 'description'];
     }
 }
