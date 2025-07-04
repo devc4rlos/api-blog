@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Repositories\Post;
+
+use App\Dto\Filter\FiltersDto;
+use App\Dto\Persistence\Post\CreatePostPersistenceDto;
+use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
+use App\Models\Post;
+use App\Repositories\EloquentBuilderQueryGetter;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+class EloquentPostRepository implements PostRepositoryInterface
+{
+    private Post $model;
+
+    public function __construct()
+    {
+        $this->model = app(Post::class);
+    }
+
+    public function all(FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        $builder = new EloquentBuilderQueryGetter(
+            $this->model::query(),
+            $filtersDTO,
+            $this->model::pipelinesFindAll(),
+            $this->model,
+        );
+
+        return $builder->all();
+    }
+
+    public function findById(string $id, FiltersDto $filtersDTO): Post
+    {
+        $builder = new EloquentBuilderQueryGetter(
+            $this->model::query(),
+            $filtersDTO,
+            $this->model::pipelinesFindAll(),
+            $this->model,
+        );
+
+        return $builder->find($id);
+    }
+
+    public function create(CreatePostPersistenceDto $dto): Post
+    {
+        return $this->model->create([
+            'title' => $dto->title(),
+            'description' => $dto->description(),
+            'slug' => $dto->slug(),
+            'body' => $dto->body(),
+            'image_path' => $dto->imagePath(),
+            'status' => $dto->status(),
+        ]);
+    }
+
+    public function update(Post $post, UpdatePostPersistenceDto $dto): bool
+    {
+        return $post->update($dto->toArray());
+    }
+
+    public function delete(Post $post): bool
+    {
+        return $post->delete() ?? false;
+    }
+}
