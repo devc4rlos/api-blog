@@ -7,11 +7,14 @@ use Database\Factories\PostFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Post extends Model
 {
     /** @use HasFactory<PostFactory> */
     use HasFactory, HasUlids;
+
+    protected $appends = ['image_url'];
 
     protected $fillable = [
         'title',
@@ -27,5 +30,16 @@ class Post extends Model
         return [
             'status' => PostStatusEnum::class,
         ];
+    }
+
+    public function getImageUrlAttribute(): ?string
+    {
+        if ($this->image_path) {
+            return Storage::disk('s3')->temporaryUrl(
+                $this->image_path,
+                now()->addMinutes(5)
+            );
+        }
+        return null;
     }
 }
