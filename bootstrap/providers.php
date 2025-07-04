@@ -11,4 +11,5 @@ return [
     App\Providers\RateLimitingApiServiceProvider::class,
     App\Providers\RateLimitingAuthServiceProvider::class,
     App\Providers\Post\PostRepositoryServiceProvider::class,
+    App\Providers\Post\PostServiceProvider::class,
 ];
