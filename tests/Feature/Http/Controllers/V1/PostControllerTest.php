@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Http\Controllers\V1;
+namespace Tests\Feature\Http\Controllers\V1;
 
 use App\Enums\PostStatusEnum;
 use App\Jobs\DeleteOldImagePostJob;
@@ -100,6 +100,22 @@ class PostControllerTest extends TestCase
         $this->assertDatabaseHas('posts', $data);
     }
 
+    public function test_should_fail_when_trying_to_create_post_with_existing_slug()
+    {
+        $slug = fake()->slug();
+        Post::factory()->create(['slug' => $slug]);
+        $data = [
+            'title' => fake()->title(),
+            'description' =>fake()->text(),
+            'slug' => $slug,
+            'body' => fake()->sentence(),
+            'status' => PostStatusEnum::DRAFT->value,
+        ];
+        $response = $this->post($this->endpoint, $data);
+
+        $response->assertStatus(422);
+    }
+
     public function test_should_update_a_post_successfully_with_a_new_image(): void
     {
         $oldImagePath = 'posts/old-image.jpg';
@@ -143,6 +159,23 @@ class PostControllerTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJsonValidationErrors(['title']);
+    }
+
+    public function test_should_fail_when_trying_to_update_post_with_existing_slug()
+    {
+        $title = 'Post title';
+        $slug = fake()->slug();
+        $postFirst = Post::factory()->create(['slug' => $slug]);
+        $post = Post::factory()->create();
+
+        $data = [
+            'title' => $title,
+            'slug' => $postFirst->slug,
+        ];
+
+        $response = $this->put($this->endpoint . $post->id, $data);
+
+        $response->assertStatus(422);
     }
 
     public function test_should_update_post()

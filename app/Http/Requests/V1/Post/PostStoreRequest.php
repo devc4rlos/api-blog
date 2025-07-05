@@ -14,7 +14,7 @@ class PostStoreRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string', 'max:255'],
-            'slug' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255', 'unique:posts,slug'],
             'body' => ['required', 'string', 'max:20000'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'status' => ['required', Rule::in(PostStatusEnum::cases())],
