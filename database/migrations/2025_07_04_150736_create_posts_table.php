@@ -15,7 +15,7 @@ return new class extends Migration
             $table->ulid('id')->primary();
             $table->string('title');
             $table->string('description');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->text('body');
             $table->string('image_path')->nullable();
             $table->enum('status', ['draft', 'published', 'archived'])->default('draft');

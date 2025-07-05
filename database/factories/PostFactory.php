@@ -21,7 +21,7 @@ class PostFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
-            'slug' => $this->faker->slug(),
+            'slug' => $this->faker->unique()->slug(),
             'body' => $this->faker->realText(2000),
             'image_path' => $this->faker->filePath(),
             'status' => $this->faker->randomElement(PostStatusEnum::cases())->value,

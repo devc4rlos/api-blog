@@ -76,4 +76,24 @@ class EloquentPostRepositoryTest extends TestCase
         $repository->delete($postCreated);
         $this->assertDatabaseMissing('posts', ['id' => $postCreated->id]);
     }
+
+    public function test_should_find_post_by_slug()
+    {
+        $postCreated = Post::factory()->create([
+            'slug' => 'slug-post',
+        ]);
+
+        $repository = new EloquentPostRepository();
+        $post = $repository->findBySlug($postCreated->slug);
+        $this->assertEquals($postCreated->slug, $post->slug);
+    }
+
+    public function test_should_return_null_when_bucar_post_with_invalid_slug()
+    {
+        Post::factory()->create();
+
+        $repository = new EloquentPostRepository();
+        $post = $repository->findBySlug('invalid-slug');
+        $this->assertNull($post);
+    }
 }

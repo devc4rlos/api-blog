@@ -15,4 +15,5 @@ interface PostRepositoryInterface
     public function create(CreatePostPersistenceDto $dto): Post;
     public function update(Post $post, UpdatePostPersistenceDto $dto): bool;
     public function delete(Post $post): bool;
+    public function findBySlug(string $slug): ?Post;
 }
