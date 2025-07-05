@@ -4,6 +4,7 @@ use App\Facades\ResponseApi;
 use App\Http\Controllers\V1\AccountController;
 use App\Http\Controllers\V1\Auth\AuthenticateController;
 use App\Http\Controllers\V1\PasswordResetController;
+use App\Http\Controllers\V1\PostController;
 use App\Http\Controllers\V1\RegisterStandardUserController;
 use App\Http\Controllers\V1\UserController;
 
@@ -29,6 +30,7 @@ Route::middleware(['throttle:api'])->group(function () {
     });
 
     Route::middleware(['auth:sanctum', 'auth.admin'])->group(function () {
+        Route::apiResource('posts', PostController::class);
         Route::apiResource('users', UserController::class);
         Route::post('logout', [AuthenticateController::class, 'logout']);
     });
