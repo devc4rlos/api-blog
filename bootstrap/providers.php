@@ -13,4 +13,5 @@ return [
     App\Providers\Post\PostRepositoryServiceProvider::class,
     App\Providers\Post\PostServiceProvider::class,
     App\Providers\Comment\CommentRepositoryServiceProvider::class,
+    App\Providers\Comment\CommentServiceProvider::class,
 ];
