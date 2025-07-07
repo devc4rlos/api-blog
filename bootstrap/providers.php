@@ -12,4 +12,5 @@ return [
     App\Providers\RateLimitingAuthServiceProvider::class,
     App\Providers\Post\PostRepositoryServiceProvider::class,
     App\Providers\Post\PostServiceProvider::class,
+    App\Providers\Comment\CommentRepositoryServiceProvider::class,
 ];
