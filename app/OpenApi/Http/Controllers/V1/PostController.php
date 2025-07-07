@@ -8,7 +8,7 @@ class PostController
 {
     /**
      * @OA\Get(
-     *     path="/v1/posts",
+     *     path="/v1/admin/posts",
      *     summary="List Posts",
      *     description="Retrieves a paginated list of posts. Results can be filtered, sorted, and searched.",
      *     tags={"Posts"},
@@ -67,7 +67,7 @@ class PostController
 
     /**
      * @OA\Post(
-     *     path="/v1/posts",
+     *     path="/v1/admin/posts",
      *     summary="Create a New Post",
      *     description="Creates a new post. The authenticated user will be set as the author. `multipart/form-data` is required for image uploads.",
      *     tags={"Posts"},
@@ -214,7 +214,7 @@ class PostController
 
     /**
      * @OA\Get(
-     *     path="/v1/posts/{id}",
+     *     path="/v1/admin/posts/{id}",
      *     summary="Get a Specific Post",
      *     description="Retrieves the details of a specific post by its ID.",
      *     tags={"Posts"},
@@ -278,7 +278,7 @@ class PostController
 
     /**
      * @OA\Patch(
-     *     path="/v1/posts/{id}",
+     *     path="/v1/admin/posts/{id}",
      *     summary="Update an Existing Post",
      *     description="Updates a post's data. Only the fields provided in the request will be updated (partial update).",
      *     tags={"Posts"},
@@ -438,7 +438,7 @@ class PostController
 
     /**
      * @OA\Delete(
-     *     path="/v1/posts/{id}",
+     *     path="/v1/admin/posts/{id}",
      *     summary="Delete a Post",
      *     description="Permanently deletes a post from the system. **This action cannot be undone.**",
      *     tags={"Posts"},

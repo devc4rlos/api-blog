@@ -8,7 +8,7 @@ class UserController
 {
     /**
      * @OA\Get(
-     *     path="/v1/users",
+     *     path="/v1/admin/users",
      *     summary="Retrieve a paginated list of users",
      *     description="Fetches a list of all users, allowing for pagination, searching, sorting, and relationship embedding. This endpoint is useful for administrative views or user directories.",
      *     tags={"Users"},
@@ -66,7 +66,7 @@ class UserController
 
     /**
      * @OA\Post(
-     *     path="/v1/users",
+     *     path="/v1/admin/users",
      *     summary="Create a new user",
      *     description="Registers a new user in the system with the provided information.",
      *     tags={"Users"},
@@ -180,7 +180,7 @@ class UserController
 
     /**
      * @OA\Get(
-     *     path="/v1/users/{id}",
+     *     path="/v1/admin/users/{id}",
      *     summary="Retrieve a specific user by ID",
      *     description="Fetches detailed information for a single user identified by their unique ID.",
      *     tags={"Users"},
@@ -244,7 +244,7 @@ class UserController
 
     /**
      * @OA\Patch(
-     *     path="/v1/users/{id}",
+     *     path="/v1/admin/users/{id}",
      *     summary="Update an existing user's information",
      *     description="Updates the details of an existing user. Only the fields provided in the request body will be updated.",
      *     tags={"Users"},
@@ -357,7 +357,7 @@ class UserController
 
     /**
      * @OA\Delete(
-     *     path="/v1/users/{id}",
+     *     path="/v1/admin/users/{id}",
      *     summary="Delete a specific user",
      *     description="Permanently deletes a user from the system. This action is irreversible.",
      *     tags={"Users"},
