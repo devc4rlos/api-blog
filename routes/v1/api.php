@@ -1,6 +1,7 @@
 <?php
 
 use App\Facades\ResponseApi;
+use App\Http\Controllers\V1\StandardPostController;
 use App\Http\Controllers\V1\AccountController;
 use App\Http\Controllers\V1\Auth\AuthenticateController;
 use App\Http\Controllers\V1\PasswordResetController;
@@ -22,6 +23,9 @@ Route::middleware(['throttle:api'])->group(function () {
             ->setResult(['status' => true])
             ->response();
     });
+
+    Route::get('/posts', [StandardPostController::class, 'index']);
+    Route::get('/posts/{post:slug}', [StandardPostController::class, 'show']);
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/account', [AccountController::class, 'show']);
