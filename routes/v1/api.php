@@ -1,6 +1,7 @@
 <?php
 
 use App\Facades\ResponseApi;
+use App\Http\Controllers\V1\CommentController;
 use App\Http\Controllers\V1\StandardPostController;
 use App\Http\Controllers\V1\AccountController;
 use App\Http\Controllers\V1\Auth\AuthenticateController;
@@ -36,6 +37,7 @@ Route::middleware(['throttle:api'])->group(function () {
     Route::middleware(['auth:sanctum', 'auth.admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::apiResource('posts', PostController::class);
         Route::apiResource('users', UserController::class);
+        Route::apiResource('comments', CommentController::class);
         Route::post('logout', [AuthenticateController::class, 'logout']);
     });
 });
