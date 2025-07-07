@@ -42,6 +42,19 @@ class PostServiceTest extends TestCase
         $service->all($filtersDTO);
     }
 
+    public function test_should_return_all_posts_published()
+    {
+        $lengthAwarePaginator = Mockery::mock(LengthAwarePaginator::class);
+        $filtersDTO = new FiltersDto();
+
+        $this->repository->shouldReceive('allPublished')
+            ->andReturn($lengthAwarePaginator)
+            ->once();
+
+        $service = new PostService($this->repository);
+        $service->allPublished($filtersDTO);
+    }
+
     public function test_should_return_post_by_id()
     {
         $post = Mockery::mock(Post::class);
@@ -53,6 +66,19 @@ class PostServiceTest extends TestCase
 
         $service = new PostService($this->repository);
         $service->findById(1, $filtersDTO);
+    }
+
+    public function test_should_return_post_published_by_id()
+    {
+        $post = Mockery::mock(Post::class);
+        $filtersDTO = new FiltersDto();
+
+        $this->repository->shouldReceive('findPublishedById')
+            ->andReturn($post)
+            ->once();
+
+        $service = new PostService($this->repository);
+        $service->findPublishedById(1, $filtersDTO);
     }
 
     public function test_should_store_image_and_call_repository_with_correct_data(): void

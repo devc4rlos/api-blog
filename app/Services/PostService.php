@@ -81,4 +81,14 @@ class PostService implements PostServiceInterface
 
         return $result;
     }
+
+    public function allPublished(FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        return $this->repository->allPublished($filtersDTO);
+    }
+
+    public function findPublishedById(string $id, FiltersDto $filtersDTO): Post
+    {
+        return $this->repository->findPublishedById($id, $filtersDTO);
+    }
 }

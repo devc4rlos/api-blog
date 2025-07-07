@@ -11,7 +11,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface PostServiceInterface
 {
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator;
+    public function allPublished(FiltersDto $filtersDTO): LengthAwarePaginator;
     public function findById(string $id, FiltersDto $filtersDTO): Post;
+    public function findPublishedById(string $id, FiltersDto $filtersDTO): Post;
     public function create(CreatePostInputDto $postDto): Post;
     public function update(Post $post, UpdatePostInputDto $postDto): bool;
     public function delete(Post $post): bool;
