@@ -13,7 +13,7 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $endpoint = '/v1/users/';
+    private string $endpoint = '/v1/admin/users/';
     private User $user;
 
     protected function setUp(): void

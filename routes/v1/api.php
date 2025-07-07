@@ -29,7 +29,7 @@ Route::middleware(['throttle:api'])->group(function () {
         Route::delete('/account', [AccountController::class, 'destroy']);
     });
 
-    Route::middleware(['auth:sanctum', 'auth.admin'])->group(function () {
+    Route::middleware(['auth:sanctum', 'auth.admin'])->prefix('admin')->name('admin.')->group(function () {
         Route::apiResource('posts', PostController::class);
         Route::apiResource('users', UserController::class);
         Route::post('logout', [AuthenticateController::class, 'logout']);

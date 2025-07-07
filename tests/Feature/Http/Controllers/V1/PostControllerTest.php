@@ -18,7 +18,7 @@ class PostControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private string $endpoint = '/v1/posts/';
+    private string $endpoint = '/v1/admin/posts/';
 
     protected function setUp(): void
     {
