@@ -49,6 +49,6 @@ class EloquentBuilderQueryGetter
         return app(Pipeline::class)
             ->send($payload)
             ->through($this->pipelinesDTO->pipelines())
-            ->then(fn($payload) => $payload->query()->find($id));
+            ->then(fn($payload) => $payload->query()->findOrFail($id));
     }
 }

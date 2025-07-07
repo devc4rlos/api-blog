@@ -8,6 +8,7 @@ use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
 use App\Enums\PostStatusEnum;
 use App\Models\Post;
 use App\Repositories\Post\EloquentPostRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -29,6 +30,21 @@ class EloquentPostRepositoryTest extends TestCase
         $this->assertEquals($createdIds, $retrievedIds);
     }
 
+    public function test_should_retrieved_all_posts_published()
+    {
+        Post::factory()->count(10)->create(['status' => PostStatusEnum::ARCHIVED->value]);
+        $createdPosts = Post::factory()->count(10)->create(['status' => PostStatusEnum::PUBLISHED->value]);
+        $repository = new EloquentPostRepository();
+
+        $retrievedPosts = $repository->allPublished(new FiltersDto());
+
+        $createdIds = $createdPosts->pluck('id')->sort()->values();
+        $retrievedIds = $retrievedPosts->pluck('id')->sort()->values();
+
+        $this->assertCount(10, $retrievedPosts);
+        $this->assertEquals($createdIds, $retrievedIds);
+    }
+
     public function test_should_find_post_id()
     {
         $postCreated = Post::factory()->create();
@@ -37,6 +53,26 @@ class EloquentPostRepositoryTest extends TestCase
         $post = $repository->findById($postCreated->id, new FiltersDto());
 
         $this->assertEquals($postCreated->id, $post->id);
+    }
+
+    public function test_should_find_post_id_published()
+    {
+        Post::factory()->count(10)->create(['status' => PostStatusEnum::ARCHIVED->value]);
+        $postCreated = Post::factory()->create(['status' => PostStatusEnum::PUBLISHED->value]);
+        $repository = new EloquentPostRepository();
+
+        $post = $repository->findPublishedById($postCreated->id, new FiltersDto());
+
+        $this->assertEquals($postCreated->id, $post->id);
+    }
+
+    public function test_should_return_model_not_found_exception_when_trying_to_access_unpublished_post()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $postCreated = Post::factory()->create(['status' => PostStatusEnum::ARCHIVED->value]);
+        $repository = new EloquentPostRepository();
+
+        $repository->findPublishedById($postCreated->id, new FiltersDto());
     }
 
     public function test_should_create_post()
@@ -88,7 +124,8 @@ class EloquentPostRepositoryTest extends TestCase
         $this->assertEquals($postCreated->slug, $post->slug);
     }
 
-    public function test_should_return_null_when_bucar_post_with_invalid_slug()
+
+    public function test_should_return_null_when_search_post_with_invalid_slug()
     {
         Post::factory()->create();
 

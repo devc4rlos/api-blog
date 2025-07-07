@@ -30,10 +30,34 @@ class EloquentPostRepository implements PostRepositoryInterface
         return $builder->all();
     }
 
+    public function allPublished(FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        $builder = new EloquentBuilderQueryGetter(
+            $this->model->published()->newQuery(),
+            $filtersDTO,
+            $this->model::pipelinesFindAll(),
+            $this->model,
+        );
+
+        return $builder->all();
+    }
+
     public function findById(string $id, FiltersDto $filtersDTO): Post
     {
         $builder = new EloquentBuilderQueryGetter(
             $this->model::query(),
+            $filtersDTO,
+            $this->model::pipelinesFindAll(),
+            $this->model,
+        );
+
+        return $builder->find($id);
+    }
+
+    public function findPublishedById(string $id, FiltersDto $filtersDTO): Post
+    {
+        $builder = new EloquentBuilderQueryGetter(
+            $this->model->published()->newQuery(),
             $filtersDTO,
             $this->model::pipelinesFindAll(),
             $this->model,

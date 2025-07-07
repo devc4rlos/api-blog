@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\PostStatusEnum;
 use Database\Factories\PostFactory;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Storage;
@@ -40,6 +42,12 @@ class Post extends ModelCrud
             );
         }
         return null;
+    }
+
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->where('status', PostStatusEnum::PUBLISHED->value);
     }
 
     public function allowedSortBy(): array
