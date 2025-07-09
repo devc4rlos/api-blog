@@ -87,7 +87,7 @@ class PostController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('validate.pagination:' . Post::class, only: ['index'])
+            new Middleware('validate.pagination:' . Post::count(), only: ['index'])
         ];
     }
 }

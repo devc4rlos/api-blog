@@ -8,21 +8,14 @@ use Illuminate\Http\Request;
 
 class ValidatePaginationMiddleware
 {
-    public function handle(Request $request, Closure $next, string $modelClass = '')
+    public function handle(Request $request, Closure $next, int $total)
     {
-        if (!class_exists($modelClass)) {
-            return ResponseApi::setMessage('Server configuration error')
-                ->setCode(500)
-                ->response();
-        }
-
         $page = (int) $request->query('page', 1);
 
         if ($page <= 1) {
             return $next($request);
         }
 
-        $total = $modelClass::count();
         $perPage = 15;
         $lastPage = ceil($total / $perPage);
 

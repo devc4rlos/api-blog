@@ -100,7 +100,7 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('validate.pagination:' . User::class, only: ['index'])
+            new Middleware('validate.pagination:' . User::count(), only: ['index'])
         ];
     }
 }

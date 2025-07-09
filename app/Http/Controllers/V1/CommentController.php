@@ -14,9 +14,10 @@ use App\Http\Requests\V1\Comment\CommentUpdateRequest;
 use App\Http\Resources\V1\CommentResource;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class CommentController extends Controller
+class CommentController extends Controller implements HasMiddleware
 {
     private CommentServiceInterface $service;
 
@@ -83,7 +84,7 @@ class CommentController extends Controller
     public static function middleware(): array
     {
         return [
-            new Middleware('validate.pagination:' . Comment::class, only: ['index'])
+            new Middleware('validate.pagination:' . Comment::count(), only: ['index'])
         ];
     }
 }

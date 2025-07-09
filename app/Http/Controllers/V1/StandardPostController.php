@@ -10,8 +10,10 @@ use App\Http\Pagination\PaginatorLengthAwarePaginator;
 use App\Http\Resources\V1\StandardPostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class StandardPostController extends Controller
+class StandardPostController extends Controller implements HasMiddleware
 {
     private PostServiceInterface $service;
 
@@ -37,5 +39,12 @@ class StandardPostController extends Controller
         return ResponseApi::setMessage(__('controllers/post.show'))
             ->setResultResource(StandardPostResource::make($post))
             ->response();
+    }
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('validate.pagination:' . Post::published()->count(), only: ['index'])
+        ];
     }
 }

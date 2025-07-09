@@ -15,9 +15,10 @@ use App\Http\Resources\V1\StandardCommentResource;
 use App\Models\Comment;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
-class StandardCommentController extends Controller
+class StandardCommentController extends Controller implements HasMiddleware
 {
     use AuthorizesRequests;
 
@@ -98,7 +99,10 @@ class StandardCommentController extends Controller
     public static function middleware(): array
     {
         return [
-            new Middleware('validate.pagination:' . Comment::class, only: ['index'])
+            new Middleware(
+                'validate.pagination:' . Comment::where('user_id', auth()->id() ?? 0)->count(),
+                only: ['index']
+            )
         ];
     }
 }
