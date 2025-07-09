@@ -36,6 +36,19 @@ class CommentServiceTest extends TestCase
         $service->all($filtersDTO);
     }
 
+    public function test_should_return_all_comments_from_user()
+    {
+        $lengthAwarePaginator = Mockery::mock(LengthAwarePaginator::class);
+        $filtersDTO = new FiltersDto();
+
+        $this->repository->shouldReceive('allFromUser')
+            ->andReturn($lengthAwarePaginator)
+            ->once();
+
+        $service = new CommentService($this->repository);
+        $service->allFromUser(1, $filtersDTO);
+    }
+
     public function test_should_return_comment_by_id()
     {
         $comment = Mockery::mock(Comment::class);

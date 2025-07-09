@@ -26,6 +26,11 @@ class CommentService implements CommentServiceInterface
         return $this->repository->all($filtersDTO);
     }
 
+    public function allFromUser(string $userId, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        return $this->repository->allFromUser($userId, $filtersDTO);
+    }
+
     public function findById(string $id, FiltersDto $filtersDTO): Comment
     {
         return $this->repository->findById($id, $filtersDTO);

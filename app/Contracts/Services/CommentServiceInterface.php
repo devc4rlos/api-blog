@@ -11,6 +11,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 interface CommentServiceInterface
 {
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator;
+    public function allFromUser(string $userId, FiltersDto $filtersDTO): LengthAwarePaginator;
     public function findById(string $id, FiltersDto $filtersDTO): Comment;
     public function create(CreateCommentInputDto $commentDto): Comment;
     public function update(Comment $comment, UpdateCommentInputDto $commentDto): bool;
