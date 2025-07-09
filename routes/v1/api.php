@@ -2,6 +2,7 @@
 
 use App\Facades\ResponseApi;
 use App\Http\Controllers\V1\CommentController;
+use App\Http\Controllers\V1\StandardCommentController;
 use App\Http\Controllers\V1\StandardPostController;
 use App\Http\Controllers\V1\AccountController;
 use App\Http\Controllers\V1\Auth\AuthenticateController;
@@ -32,6 +33,8 @@ Route::middleware(['throttle:api'])->group(function () {
         Route::get('/account', [AccountController::class, 'show']);
         Route::patch('/account', [AccountController::class, 'update']);
         Route::delete('/account', [AccountController::class, 'destroy']);
+
+        Route::apiResource('comments', StandardCommentController::class);
     });
 
     Route::middleware(['auth:sanctum', 'auth.admin'])->prefix('admin')->name('admin.')->group(function () {
