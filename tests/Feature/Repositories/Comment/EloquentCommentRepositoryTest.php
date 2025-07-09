@@ -38,6 +38,25 @@ class EloquentCommentRepositoryTest extends TestCase
         $this->assertEquals($createdIds, $retrievedIds);
     }
 
+    public function test_should_retrieved_all_comments_from_user()
+    {
+        Comment::factory()->count(10)->create();
+
+        $user = User::factory()->create();
+        $createdComments = Comment::factory()->count(5)->create([
+            'user_id' => $user->id,
+        ]);
+        $repository = new EloquentCommentRepository();
+
+        $retrievedComments = $repository->allFromUser($user->id, new FiltersDto());
+
+        $createdIds = $createdComments->pluck('id')->sort()->values();
+        $retrievedIds = $retrievedComments->pluck('id')->sort()->values();
+
+        $this->assertCount(5, $retrievedComments);
+        $this->assertEquals($createdIds, $retrievedIds);
+    }
+
     public function test_should_find_comment_by_id()
     {
         $createdComment = Comment::factory()->create();

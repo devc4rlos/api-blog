@@ -30,6 +30,18 @@ class EloquentCommentRepository implements CommentRepositoryInterface
         return $builder->all();
     }
 
+    public function allFromUser(string $userId, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        $builder = new EloquentBuilderQueryGetter(
+            $this->model::where('user_id', $userId)->newQuery(),
+            $filtersDTO,
+            $this->model::pipelinesFindAll(),
+            $this->model,
+        );
+
+        return $builder->all();
+    }
+
     public function findById(string $id, FiltersDto $filtersDTO): Comment
     {
         $builder = new EloquentBuilderQueryGetter(
