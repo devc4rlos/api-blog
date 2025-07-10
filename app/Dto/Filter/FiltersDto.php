@@ -7,7 +7,6 @@ class FiltersDto
     private ?string $search;
     private ?string $sortBy;
     private ?string $sortDirection;
-    private ?string $relationships;
     private ?string $page;
     private ?string $searchBy;
 
@@ -15,7 +14,6 @@ class FiltersDto
         ?string $search = null,
         ?string $sortBy = null,
         ?string $sortDirection = null,
-        ?string $relationships = null,
         ?string $page = null,
         ?string $searchBy = null,
     )
@@ -23,7 +21,6 @@ class FiltersDto
         $this->search = $search;
         $this->sortBy = $sortBy;
         $this->sortDirection = $sortDirection;
-        $this->relationships = $relationships;
         $this->page = $page;
         $this->searchBy = $searchBy;
     }
@@ -41,11 +38,6 @@ class FiltersDto
     public function sortDirection(): ?string
     {
         return $this->sortDirection;
-    }
-
-    public function relationships(): ?string
-    {
-        return $this->relationships;
     }
 
     public function page(): ?string

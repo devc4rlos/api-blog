@@ -10,12 +10,14 @@ class FiltersDtoTest extends TestCase
 {
     public static function provideFilters(): array
     {
+        $parameters = fn (?string $search = null, ?string $sortBy = null, ?string $sortDirection = null, ?string $page = null, ?string $searchBy = null) => [$search, $sortBy, $sortDirection, $page, $searchBy];
+
         return [
-            [['search'], 'search', 'search'],
-            [[null, 'sortBy'], 'sortBy', 'sortBy'],
-            [[null, null, 'sortDirection'], 'sortDirection', 'sortDirection'],
-            [[null, null, null, 'relationships'], 'relationships', 'relationships'],
-            [[null, null, null, null, 'page'], 'page', 'page'],
+            [$parameters(search: 'search'), 'search', 'search'],
+            [$parameters(sortBy: 'sortBy'), 'sortBy', 'sortBy'],
+            [$parameters(sortDirection: 'sortDirection'), 'sortDirection', 'sortDirection'],
+            [$parameters(page: 'page'), 'page', 'page'],
+            [$parameters(searchBy: 'searchBy'), 'searchBy', 'searchBy'],
         ];
     }
 
