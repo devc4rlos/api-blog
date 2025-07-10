@@ -60,7 +60,7 @@ class ResponseBuilderTest extends TestCase
             'status' => 'success',
         ];
         $mock = Mockery::mock(JsonResource::class);
-        $mock->shouldReceive('toArray')->andReturn($data);
+        $mock->shouldReceive('jsonSerialize')->andReturn($data);
 
         $builder = new ResponseBuilder();
         $builder->setResultResource($mock);
