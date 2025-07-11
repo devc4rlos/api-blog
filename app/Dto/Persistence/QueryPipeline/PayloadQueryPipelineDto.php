@@ -4,7 +4,7 @@ namespace App\Dto\Persistence\QueryPipeline;
 
 use App\Contracts\ModelCrudInterface;
 use App\Dto\Filter\FiltersDto;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class PayloadQueryPipelineDto
 {

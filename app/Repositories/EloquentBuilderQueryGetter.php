@@ -6,7 +6,7 @@ use App\Contracts\ModelCrudInterface;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\QueryPipeline\PayloadQueryPipelineDto;
 use App\Dto\Persistence\QueryPipeline\QueryPipelinesDto;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
