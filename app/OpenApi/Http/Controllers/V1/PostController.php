@@ -65,6 +65,67 @@ class PostController
     public function index(){}
 
     /**
+     * @OA\Get(
+     *     path="/v1/admin/posts/{id}/comments",
+     *     summary="List a Post's Comments",
+     *     description="Retrieves a paginated list of all comments associated with a specific post. Requires administrator privileges.",
+     *     tags={"Posts"},
+     *     security={
+     *         {"sanctum": {}}
+     *     },
+     *     @OA\Parameter(
+     *         description="The ID of the post whose comments are to be retrieved.",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of the post's comments retrieved successfully.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *              @OA\Property(
+     *                   property="message",
+     *                   type="string",
+     *                   example="Comments for the post retrieved successfully."
+     *               ),
+     *               @OA\Property(
+     *                   property="data",
+     *                   type="array",
+     *                   @OA\Items(ref="#/components/schemas/Comment")
+     *               ),
+     *               @OA\Property(
+     *                   property="links",
+     *                   ref="#/components/schemas/PaginationLinks",
+     *               ),
+     *               @OA\Property(
+     *                   property="meta",
+     *                   ref="#/components/schemas/PaginationMeta",
+     *               ),
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         ref="#/components/responses/NotFoundRangePage",
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         ref="#/components/responses/Unauthenticated"
+     *     ),
+     *     @OA\Response(
+     *         response="403",
+     *         ref="#/components/responses/Forbidden"
+     *     ),
+     *      @OA\Response(
+     *          response="429",
+     *          ref="#/components/responses/TooManyRequests"
+     *      ),
+     * )
+     */
+    public function comments(){}
+
+    /**
      * @OA\Post(
      *     path="/v1/admin/posts",
      *     summary="Create a New Post",
