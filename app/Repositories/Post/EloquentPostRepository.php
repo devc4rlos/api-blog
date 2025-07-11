@@ -101,9 +101,4 @@ class EloquentPostRepository implements PostRepositoryInterface
     {
         return $post->delete() ?? false;
     }
-
-    public function findBySlug(string $slug): ?Post
-    {
-        return Post::whereSlug($slug)->first() ?? null;
-    }
 }

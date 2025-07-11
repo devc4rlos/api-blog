@@ -132,9 +132,4 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
         return $result;
     }
-
-    public function findBySlug(string $slug): ?Post
-    {
-        return $this->repository->findBySlug($slug);
-    }
 }
