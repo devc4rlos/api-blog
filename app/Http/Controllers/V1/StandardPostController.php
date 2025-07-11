@@ -7,8 +7,10 @@ use App\Dto\Filter\FiltersRequestDto;
 use App\Facades\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Pagination\PaginatorLengthAwarePaginator;
+use App\Http\Resources\V1\CommentResource;
 use App\Http\Resources\V1\StandardPostResource;
 use App\Models\Post;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -38,6 +40,16 @@ class StandardPostController extends Controller implements HasMiddleware
 
         return ResponseApi::setMessage(__('controllers/post.show'))
             ->setResultResource(StandardPostResource::make($post))
+            ->response();
+    }
+
+    public function comments(Request $request, Post $post)
+    {
+        $comments = $this->service->allCommentsFromPublicPost($post, new FiltersRequestDto($request));
+
+        return ResponseApi::setMessage(__('controllers/post.comments'))
+            ->setResultResource(CommentResource::collection($comments))
+            ->setPaginator(new PaginatorLengthAwarePaginator($comments, request()->except('page')))
             ->response();
     }
 

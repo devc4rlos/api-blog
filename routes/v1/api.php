@@ -28,6 +28,7 @@ Route::middleware(['throttle:api'])->group(function () {
 
     Route::get('/posts', [StandardPostController::class, 'index']);
     Route::get('/posts/{post:slug}', [StandardPostController::class, 'show']);
+    Route::get('/posts/{post:slug}/comments', [StandardPostController::class, 'comments']);
 
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/account', [AccountController::class, 'show']);

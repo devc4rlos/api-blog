@@ -3,6 +3,7 @@
 namespace Feature\Http\Controllers\V1;
 
 use App\Enums\PostStatusEnum;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -79,6 +80,29 @@ class StandardPostControllerTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertSame(__('controllers/post.show'), $response->json('message'));
+    }
+
+    public function test_should_return_all_comments_from_a_public_post()
+    {
+        $post = Post::factory()->create(['status' => PostStatusEnum::PUBLISHED->value]);
+        $createdComments = Comment::factory()->count(10)->create(['post_id' => $post->id]);
+        $response = $this->get($this->endpoint . $post->slug . '/comments');
+
+        $retrievedIdComments = collect($response->json('data'))->pluck('id')->values()->toArray();
+        $idComments = collect($createdComments)->pluck('id')->values()->toArray();
+
+        $response->assertStatus(200);
+        $this->assertEquals(10, $post->comments->count());
+        $this->assertEquals($retrievedIdComments, $idComments);
+        $this->assertSame(__('controllers/post.comments'), $response->json('message'));
+    }
+
+    public function test_should_return_404_status_when_trying_to_access_comments_on_a_post_that_is_not_public()
+    {
+        $post = Post::factory()->create(['status' => PostStatusEnum::ARCHIVED->value]);
+        $response = $this->get($this->endpoint . $post->slug . '/comments');
+
+        $response->assertStatus(404);
     }
 
     public function test_should_return_404_status_when_trying_to_access_post_that_is_not_public()
