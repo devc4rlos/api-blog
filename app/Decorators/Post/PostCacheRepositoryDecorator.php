@@ -31,7 +31,7 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
-        $cacheKey = CreateCacheKeyHelper::forIndex('posts', $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forIndex('all', 'posts', $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey) {
             $this->logger->debug('Cache MISS for all posts. Fetching from repository.', [
@@ -45,7 +45,7 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
     public function allPublished(FiltersDto $filtersDTO): LengthAwarePaginator
     {
-        $cacheKey = CreateCacheKeyHelper::forIndex('posts', $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forIndex('allPublished', 'posts', $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey) {
             $this->logger->debug('Cache MISS for all posts published. Fetching from repository.', [
@@ -59,7 +59,7 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
     public function findById(string $id, FiltersDto $filtersDTO): Post
     {
-        $cacheKey = CreateCacheKeyHelper::forFind('posts', $id, $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forFind('findById', 'posts', $id, $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $id) {
             $this->logger->debug('Cache MISS for post findById. Fetching from repository.', [
@@ -74,7 +74,7 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
     public function findPublishedById(string $id, FiltersDto $filtersDTO): Post
     {
-        $cacheKey = CreateCacheKeyHelper::forFind('posts', $id, $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forFind('findPublishedById', 'posts', $id, $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $id) {
             $this->logger->debug('Cache MISS for post findPublishedById. Fetching from repository.', [

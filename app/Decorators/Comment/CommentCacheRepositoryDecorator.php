@@ -31,7 +31,7 @@ class CommentCacheRepositoryDecorator implements CommentRepositoryInterface
 
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
-        $cacheKey = CreateCacheKeyHelper::forIndex('comments', $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forIndex('all', 'comments', $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey) {
             $this->logger->debug('Cache MISS for all comments. Fetching from repository.', [
@@ -45,7 +45,7 @@ class CommentCacheRepositoryDecorator implements CommentRepositoryInterface
 
     public function allFromUser(string $userId, FiltersDto $filtersDTO): LengthAwarePaginator
     {
-        $cacheKey = CreateCacheKeyHelper::forIndex('comments', $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forIndex('allFromUser', 'comments', $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $userId) {
             $this->logger->debug('Cache MISS for all from user comments. Fetching from repository.', [
@@ -59,7 +59,7 @@ class CommentCacheRepositoryDecorator implements CommentRepositoryInterface
 
     public function findById(string $id, FiltersDto $filtersDTO): Comment
     {
-        $cacheKey = CreateCacheKeyHelper::forFind('comments', $id, $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forFind('findById', 'comments', $id, $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $id) {
             $this->logger->debug('Cache MISS for comments findById. Fetching from repository.', [

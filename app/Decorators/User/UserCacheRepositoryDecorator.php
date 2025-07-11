@@ -31,7 +31,7 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
 
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator
     {
-        $cacheKey = CreateCacheKeyHelper::forIndex('users', $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forIndex('all', 'users', $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey) {
             $this->logger->debug('Cache MISS for users all. Fetching from repository.', [
@@ -45,7 +45,7 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
 
     public function findById(int $id, FiltersDto $filtersDTO): User
     {
-        $cacheKey = CreateCacheKeyHelper::forFind('users', $id, $filtersDTO);
+        $cacheKey = CreateCacheKeyHelper::forFind('findById', 'users', $id, $filtersDTO);
 
         return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $id) {
             $this->logger->debug('Cache MISS for findById. Fetching from repository.', [
