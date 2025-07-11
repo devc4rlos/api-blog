@@ -5,6 +5,7 @@ namespace App\Repositories\Post;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\Post\CreatePostPersistenceDto;
 use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Repositories\EloquentBuilderQueryGetter;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -37,6 +38,19 @@ class EloquentPostRepository implements PostRepositoryInterface
             $filtersDTO,
             $this->model::pipelinesFindAll(),
             $this->model,
+        );
+
+        return $builder->all();
+    }
+
+    public function allCommentsFromPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        $modelComments = app(Comment::class);
+        $builder = new EloquentBuilderQueryGetter(
+            $post->comments()->newQuery(),
+            $filtersDTO,
+            $modelComments::pipelinesFindAll(),
+            $modelComments,
         );
 
         return $builder->all();

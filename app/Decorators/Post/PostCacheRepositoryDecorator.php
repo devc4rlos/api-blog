@@ -57,6 +57,21 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
         });
     }
 
+    public function allCommentsFromPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        $cacheKey = CreateCacheKeyHelper::forFind('allCommentsFromPost', 'posts', $post, $filtersDTO);
+
+        return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($filtersDTO, $cacheKey, $post) {
+            $this->logger->debug('Cache MISS for post allCommentsFromPost. Fetching from repository.', [
+                'key' => $cacheKey,
+                'id' => $post,
+                'tag' => $this->cacheTag
+            ]);
+
+            return $this->repository->allCommentsFromPost($post, $filtersDTO);
+        });
+    }
+
     public function findById(string $id, FiltersDto $filtersDTO): Post
     {
         $cacheKey = CreateCacheKeyHelper::forFind('findById', 'posts', $id, $filtersDTO);

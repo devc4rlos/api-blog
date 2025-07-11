@@ -6,15 +6,23 @@ use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\Post\CreatePostPersistenceDto;
 use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
 use App\Enums\PostStatusEnum;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Repositories\Post\EloquentPostRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class EloquentPostRepositoryTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Storage::fake('s3');
+    }
 
     public function test_should_retrieved_all_posts()
     {
@@ -64,6 +72,21 @@ class EloquentPostRepositoryTest extends TestCase
         $post = $repository->findPublishedById($postCreated->id, new FiltersDto());
 
         $this->assertEquals($postCreated->id, $post->id);
+    }
+
+    public function test_should_retrieve_all_comments_from_post()
+    {
+        $post = Post::factory()->create();
+        $commentsCreated = Comment::factory()->count(10)->create(['post_id' => $post->id]);
+        $repository = new EloquentPostRepository();
+
+        $retrievedComments = $repository->allCommentsFromPost($post, new FiltersDto());
+
+        $createdIds = $commentsCreated->pluck('id')->sort()->values();
+        $retrievedIds = $retrievedComments->pluck('id')->sort()->values();
+
+        $this->assertCount(10, $retrievedComments);
+        $this->assertEquals($createdIds, $retrievedIds);
     }
 
     public function test_should_return_model_not_found_exception_when_trying_to_access_unpublished_post()
@@ -123,7 +146,6 @@ class EloquentPostRepositoryTest extends TestCase
         $post = $repository->findBySlug($postCreated->slug);
         $this->assertEquals($postCreated->slug, $post->slug);
     }
-
 
     public function test_should_return_null_when_search_post_with_invalid_slug()
     {
