@@ -5,10 +5,10 @@ namespace App\Decorators\Comment;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\Comment\CreateCommentPersistenceDto;
 use App\Dto\Persistence\Comment\UpdateCommentPersistenceDto;
+use App\Events\CommentChangedEvent;
 use App\Helpers\CreateCacheKeyHelper;
 use App\Models\Comment;
 use App\Repositories\Comment\CommentRepositoryInterface;
-use Exception;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -74,36 +74,32 @@ class CommentCacheRepositoryDecorator implements CommentRepositoryInterface
 
     public function create(CreateCommentPersistenceDto $dto): Comment
     {
-        $this->clearCache('create');
-        return $this->repository->create($dto);
+        $comment = $this->repository->create($dto);
+
+        event(new CommentChangedEvent($comment));
+
+        return $comment;
     }
 
     public function update(Comment $comment, UpdateCommentPersistenceDto $dto): bool
     {
-        $this->clearCache('create');
-        return $this->repository->update($comment, $dto);
+        $result = $this->repository->update($comment, $dto);
+
+        if ($result) {
+            event(new CommentChangedEvent($comment));
+        }
+
+        return $result;
     }
 
     public function delete(Comment $comment): bool
     {
-        $this->clearCache('delete', ['comment_id' => $comment->id]);
-        return $this->repository->delete($comment);
-    }
+        $result = $this->repository->delete($comment);
 
-    private function clearCache(string $reason, array $context = []): void
-    {
-        try {
-            $this->cache->flush();
-            $this->logger->info(
-                'Comment cache flushed.',
-                array_merge($context, ['reason' => $reason, 'tag' => $this->cacheTag])
-            );
-        } catch (Exception $e) {
-            $this->logger->error('Failed to flush comment cache.', [
-                'reason' => $reason,
-                'tag' => $this->cacheTag,
-                'error' => $e->getMessage(),
-            ]);
+        if ($result) {
+            event(new CommentChangedEvent($comment));
         }
+
+        return $result;
     }
 }
