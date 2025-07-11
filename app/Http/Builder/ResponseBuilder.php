@@ -9,6 +9,7 @@ use App\Http\Builder\Data\BuilderResultData;
 use App\Http\Builder\Data\BuilderWarningsData;
 use App\Http\Pagination\PaginatorInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ResponseBuilder implements ResponseBuilderInterface
@@ -23,7 +24,7 @@ class ResponseBuilder implements ResponseBuilderInterface
     public function __construct(
         string $message = '',
         ?array $result = null,
-        ?array $warnings = null,
+        array  $warnings = [],
         int    $code = 200,
         array  $metadata = [],
         ?PaginatorInterface $paginator = null
@@ -49,15 +50,21 @@ class ResponseBuilder implements ResponseBuilderInterface
         return $this;
     }
 
-    public function setWarnings(array $warnings): self
+    public function setWarning(string $attribute, mixed $value): self
     {
-        $this->warnings = $warnings;
+        $this->warnings[$attribute] = $value;
         return $this;
     }
 
-    public function setResultResource(JsonResource $resource): self
+    public function setListWarning(array $listWarning): self
     {
-        return $this->setResult($resource->toArray(request()));
+        $this->warnings = array_merge($this->warnings, $listWarning);
+        return $this;
+    }
+
+    public function setResultResource(JsonResource $resource, ?Request $request = null): self
+    {
+        return $this->setResult($resource->jsonSerialize());
     }
 
     public function setCode(int $code): self
@@ -127,8 +134,7 @@ class ResponseBuilder implements ResponseBuilderInterface
             ->setNext(new BuilderResultData())
             ->setNext(new BuilderPaginateData())
             ->setNext(new BuilderWarningsData())
-            ->setNext(new BuilderMetadataData())
-        ;
+            ->setNext(new BuilderMetadataData());
 
         return $builderMessageData->handle($this, []);
     }

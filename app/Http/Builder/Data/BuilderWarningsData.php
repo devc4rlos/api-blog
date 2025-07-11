@@ -10,7 +10,7 @@ class BuilderWarningsData extends BuilderData
     {
         $warnings = $responseBuilder->getWarnings();
 
-        if ($warnings !== null) {
+        if (count($warnings) > 0) {
             $data['warnings'] = $warnings;
         }
 
