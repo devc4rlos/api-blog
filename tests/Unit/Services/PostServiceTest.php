@@ -7,10 +7,12 @@ use App\Dto\Input\Post\CreatePostInputDto;
 use App\Dto\Input\Post\UpdatePostInputDto;
 use App\Dto\Persistence\Post\CreatePostPersistenceDto;
 use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
+use App\Enums\PostStatusEnum;
 use App\Jobs\DeleteOldImagePostJob;
 use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Services\PostService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Queue;
@@ -53,6 +55,46 @@ class PostServiceTest extends TestCase
 
         $service = new PostService($this->repository);
         $service->allPublished($filtersDTO);
+    }
+
+    public function test_should_retrieve_post_comments_with_repository()
+    {
+        $lengthAwarePaginator = Mockery::mock(LengthAwarePaginator::class);
+        $post = Mockery::mock(Post::class);
+        $filtersDTO = new FiltersDto();
+
+        $this->repository->shouldReceive('allCommentsFromPost')
+            ->andReturn($lengthAwarePaginator)
+            ->once();
+
+        $service = new PostService($this->repository);
+        $service->allCommentsFromPost($post, $filtersDTO);
+    }
+
+    public function test_should_retrieve_all_comments_from_a_public_post()
+    {
+        $lengthAwarePaginator = Mockery::mock(LengthAwarePaginator::class);
+        $post = Mockery::mock(Post::class)->makePartial();
+        $post->status = PostStatusEnum::PUBLISHED;
+        $filtersDTO = new FiltersDto();
+
+        $this->repository->shouldReceive('allCommentsFromPost')
+            ->andReturn($lengthAwarePaginator)
+            ->once();
+
+        $service = new PostService($this->repository);
+        $service->allCommentsFromPublicPost($post, $filtersDTO);
+    }
+
+    public function test_should_return_model_not_found_exception_when_trying_to_access_comments_from_a_non_public_post()
+    {
+        $this->expectException(ModelNotFoundException::class);
+        $post = Mockery::mock(Post::class)->makePartial();
+        $post->status = PostStatusEnum::ARCHIVED->value;
+        $filtersDTO = new FiltersDto();
+
+        $service = new PostService($this->repository);
+        $service->allCommentsFromPublicPost($post, $filtersDTO);
     }
 
     public function test_should_return_post_by_id()

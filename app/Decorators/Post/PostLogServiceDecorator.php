@@ -32,6 +32,16 @@ class PostLogServiceDecorator implements PostServiceInterface
         return $this->service->allPublished($filtersDTO);
     }
 
+    public function allCommentsFromPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        return $this->service->allCommentsFromPost($post, $filtersDTO);
+    }
+
+    public function allCommentsFromPublicPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator
+    {
+        return $this->service->allCommentsFromPublicPost($post, $filtersDTO);
+    }
+
     public function findById(string $id, FiltersDto $filtersDTO): Post
     {
         return $this->service->findById($id, $filtersDTO);

@@ -12,6 +12,8 @@ interface PostServiceInterface
 {
     public function all(FiltersDto $filtersDTO): LengthAwarePaginator;
     public function allPublished(FiltersDto $filtersDTO): LengthAwarePaginator;
+    public function allCommentsFromPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator;
+    public function allCommentsFromPublicPost(Post $post, FiltersDto $filtersDTO): LengthAwarePaginator;
     public function findById(string $id, FiltersDto $filtersDTO): Post;
     public function findPublishedById(string $id, FiltersDto $filtersDTO): Post;
     public function create(CreatePostInputDto $postDto): Post;
