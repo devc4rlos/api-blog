@@ -5,10 +5,10 @@ namespace App\Decorators\User;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\User\CreateUserPersistenceDto;
 use App\Dto\Persistence\User\UpdateUserPersistenceDto;
+use App\Events\UserChangedEvent;
 use App\Helpers\CreateCacheKeyHelper;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
-use Exception;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -58,48 +58,63 @@ class UserCacheRepositoryDecorator implements UserRepositoryInterface
         });
     }
 
-    public function create(CreateUserPersistenceDto $dto): User
-    {
-        $this->clearCache('create');
-        return $this->repository->create($dto);
-    }
-
-    public function update(User $user, UpdateUserPersistenceDto $dto): bool
-    {
-        $this->clearCache('update', ['user_id' => $user->id]);
-        return $this->repository->update($user, $dto);
-    }
-
-    public function delete(User $user): bool
-    {
-        $this->clearCache('delete', ['user_id' => $user->id]);
-        return $this->repository->delete($user);
-    }
-
-    private function clearCache(string $reason, array $context = []): void
-    {
-        try {
-            $this->cache->flush();
-            $this->logger->info(
-                'User cache flushed.',
-                array_merge($context, ['reason' => $reason, 'tag' => $this->cacheTag])
-            );
-        } catch (Exception $e) {
-            $this->logger->error('Failed to flush user cache.', [
-                'reason' => $reason,
-                'tag' => $this->cacheTag,
-                'error' => $e->getMessage(),
-            ]);
-        }
-    }
-
     public function findByEmail(string $email): ?User
     {
-        return $this->repository->findByEmail($email);
+        $cacheKey = CreateCacheKeyHelper::forFind('findByEmail', 'users', $email, new FiltersDto());
+
+        return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($email, $cacheKey) {
+            $this->logger->debug('Cache MISS for findByEmail. Fetching from repository.', [
+                'key' => $cacheKey,
+                'email' => $email,
+                'tag' => $this->cacheTag
+            ]);
+
+            return $this->repository->findByEmail($email);
+        });
     }
 
     public function countAdmins(): int
     {
-        return $this->repository->countAdmins();
+        $cacheKey = CreateCacheKeyHelper::forFind('countAdmins', 'users', 'count', new FiltersDto());
+
+        return $this->cache->remember($cacheKey, now()->addMinutes($this->ttl), function () use ($cacheKey) {
+            $this->logger->debug('Cache MISS for countAdmins. Fetching from repository.', [
+                'key' => $cacheKey,
+                'tag' => $this->cacheTag
+            ]);
+
+            return $this->repository->countAdmins();
+        });
+    }
+
+    public function create(CreateUserPersistenceDto $dto): User
+    {
+        $user = $this->repository->create($dto);
+
+        event(new UserChangedEvent($user));
+
+        return $user;
+    }
+
+    public function update(User $user, UpdateUserPersistenceDto $dto): bool
+    {
+        $result = $this->repository->update($user, $dto);
+
+        if ($result) {
+            event(new UserChangedEvent($user));
+        }
+
+        return $result;
+    }
+
+    public function delete(User $user): bool
+    {
+        $result = $this->repository->delete($user);
+
+        if ($result) {
+            event(new UserChangedEvent($user));
+        }
+
+        return $result;
     }
 }
