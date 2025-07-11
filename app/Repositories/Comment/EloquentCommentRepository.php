@@ -47,7 +47,7 @@ class EloquentCommentRepository implements CommentRepositoryInterface
         $builder = new EloquentBuilderQueryGetter(
             $this->model::query(),
             $filtersDTO,
-            $this->model::pipelinesFindAll(),
+            $this->model::pipelinesFindOne(),
             $this->model,
         );
 

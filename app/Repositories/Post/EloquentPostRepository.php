@@ -47,7 +47,7 @@ class EloquentPostRepository implements PostRepositoryInterface
         $builder = new EloquentBuilderQueryGetter(
             $this->model::query(),
             $filtersDTO,
-            $this->model::pipelinesFindAll(),
+            $this->model::pipelinesFindOne(),
             $this->model,
         );
 
@@ -59,7 +59,7 @@ class EloquentPostRepository implements PostRepositoryInterface
         $builder = new EloquentBuilderQueryGetter(
             $this->model->published()->newQuery(),
             $filtersDTO,
-            $this->model::pipelinesFindAll(),
+            $this->model::pipelinesFindOne(),
             $this->model,
         );
 
