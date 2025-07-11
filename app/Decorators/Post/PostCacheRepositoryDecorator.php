@@ -5,10 +5,10 @@ namespace App\Decorators\Post;
 use App\Dto\Filter\FiltersDto;
 use App\Dto\Persistence\Post\CreatePostPersistenceDto;
 use App\Dto\Persistence\Post\UpdatePostPersistenceDto;
+use App\Events\PostChangedEvent;
 use App\Helpers\CreateCacheKeyHelper;
 use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
-use Exception;
 use Illuminate\Contracts\Cache\Factory as CacheFactory;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -104,41 +104,37 @@ class PostCacheRepositoryDecorator implements PostRepositoryInterface
 
     public function create(CreatePostPersistenceDto $dto): Post
     {
-        $this->clearCache('create');
-        return $this->repository->create($dto);
+        $post = $this->repository->create($dto);
+
+        event(new PostChangedEvent($post));
+
+        return $post;
     }
 
     public function update(Post $post, UpdatePostPersistenceDto $dto): bool
     {
-        $this->clearCache('create');
-        return $this->repository->update($post, $dto);
+        $result = $this->repository->update($post, $dto);
+
+        if ($result) {
+            event(new PostChangedEvent($post));
+        }
+
+        return $result;
     }
 
     public function delete(Post $post): bool
     {
-        $this->clearCache('delete', ['post_id' => $post->id]);
-        return $this->repository->delete($post);
+        $result = $this->repository->delete($post);
+
+        if ($result) {
+            event(new PostChangedEvent($post));
+        }
+
+        return $result;
     }
 
     public function findBySlug(string $slug): ?Post
     {
         return $this->repository->findBySlug($slug);
-    }
-
-    private function clearCache(string $reason, array $context = []): void
-    {
-        try {
-            $this->cache->flush();
-            $this->logger->info(
-                'Post cache flushed.',
-                array_merge($context, ['reason' => $reason, 'tag' => $this->cacheTag])
-            );
-        } catch (Exception $e) {
-            $this->logger->error('Failed to flush post cache.', [
-                'reason' => $reason,
-                'tag' => $this->cacheTag,
-                'error' => $e->getMessage(),
-            ]);
-        }
     }
 }
