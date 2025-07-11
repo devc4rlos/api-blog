@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Pagination\PaginatorLengthAwarePaginator;
 use App\Http\Requests\V1\Post\PostStoreRequest;
 use App\Http\Requests\V1\Post\PostUpdateRequest;
+use App\Http\Resources\V1\CommentResource;
 use App\Http\Resources\V1\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -32,6 +33,16 @@ class PostController extends Controller implements HasMiddleware
 
         return ResponseApi::setMessage(__('controllers/post.index'))
             ->setResultResource(PostResource::collection($posts))
+            ->setPaginator(new PaginatorLengthAwarePaginator($posts, request()->except('page')))
+            ->response();
+    }
+
+    public function comments(Post $post, Request $request)
+    {
+        $posts = $this->service->allCommentsFromPost($post, new FiltersRequestDto($request));
+
+        return ResponseApi::setMessage(__('controllers/post.comments'))
+            ->setResultResource(CommentResource::collection($posts))
             ->setPaginator(new PaginatorLengthAwarePaginator($posts, request()->except('page')))
             ->response();
     }

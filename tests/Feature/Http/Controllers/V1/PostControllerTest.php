@@ -4,6 +4,7 @@ namespace Tests\Feature\Http\Controllers\V1;
 
 use App\Enums\PostStatusEnum;
 use App\Jobs\DeleteOldImagePostJob;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -74,6 +75,21 @@ class PostControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertSame(__('controllers/post.index'), $response->json('message'));
         $this->assertTrue(in_array($post->id, $retrievedIdPosts));
+    }
+
+    public function test_should_return_all_comments_on_the_post()
+    {
+        $post = Post::factory()->create();
+        $createdComments = Comment::factory()->count(10)->create(['post_id' => $post->id]);
+
+        $response = $this->get($this->endpoint . $post->id . '/comments');
+
+        $retrievedIdComments = collect($response->json('data'))->pluck('id')->values()->toArray();
+        $createdIdComments = $createdComments->pluck('id')->values()->toArray();
+
+        $response->assertStatus(200);
+        $this->assertSame(__('controllers/post.comments'), $response->json('message'));
+        $this->assertSame($createdIdComments, $retrievedIdComments);
     }
 
     public function test_should_retrieved_one_post()
