@@ -15,10 +15,6 @@ class AccountController
      *     security={
      *         {"sanctum": {}}
      *     },
-     *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *          response="200",
      *          description="User account details retrieved successfully.",

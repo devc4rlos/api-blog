@@ -16,7 +16,6 @@ class StandardCommentController
      *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="List of your comments retrieved successfully.",
@@ -162,10 +161,6 @@ class StandardCommentController
      *         required=true,
      *         @OA\Schema(type="string"),
      *     ),
-     *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="Comment data retrieved successfully.",

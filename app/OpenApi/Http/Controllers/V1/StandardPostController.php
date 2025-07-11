@@ -16,7 +16,6 @@ class StandardPostController
      *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="List of posts retrieved successfully.",
@@ -67,10 +66,6 @@ class StandardPostController
      *         required=true,
      *         @OA\Schema(type="string"),
      *     ),
-     *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="Post data retrieved successfully.",

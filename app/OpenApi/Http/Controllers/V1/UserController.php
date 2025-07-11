@@ -19,7 +19,6 @@ class UserController
      *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
      *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="A paginated list of users was successfully retrieved.",
@@ -194,10 +193,6 @@ class UserController
      *         required=true,
      *         @OA\Schema(type="string"),
      *     ),
-     *     @OA\Parameter(ref="#/components/parameters/searchFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortByFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/sortDirectionFilter"),
-     *     @OA\Parameter(ref="#/components/parameters/relationshipsFilter"),
      *     @OA\Response(
      *         response="200",
      *         description="The requested user data was successfully retrieved.",
