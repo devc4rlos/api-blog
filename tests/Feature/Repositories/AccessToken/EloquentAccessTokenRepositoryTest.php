@@ -50,4 +50,31 @@ class EloquentAccessTokenRepositoryTest extends TestCase
         ]);
         $this->assertTrue($result);
     }
+
+    public function test_should_get_access_token()
+    {
+        $keyName = 'integration-token';
+        $userCreated = User::factory()->create();
+        $userCreated->createToken('testing');
+        $userCreated->createToken($keyName);
+
+        $repository = new EloquentAccessTokenRepository();
+        $accessToken = $repository->getLastTokenByName($userCreated, $keyName);
+
+        $this->assertDatabaseHas('personal_access_tokens', [
+            'id' => $accessToken->id,
+            'tokenable_type' => User::class,
+        ]);
+    }
+
+    public function test_should_return_null_when_trying_to_retrieve_token_with_invalid_name()
+    {
+        $userCreated = User::factory()->create();
+        $userCreated->createToken('testing');
+
+        $repository = new EloquentAccessTokenRepository();
+        $result = $repository->getLastTokenByName($userCreated, 'invalid-name');
+
+        $this->assertNull($result);
+    }
 }
