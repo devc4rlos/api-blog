@@ -10,13 +10,13 @@ class CreateAccessTokenPersistenceDto
     private User $user;
     private string $name;
     private array $abilities;
-    private DateTimeInterface $expiresAt;
+    private ?DateTimeInterface $expiresAt;
 
     public function __construct(
         User $user,
         string $name,
         array $abilities,
-        DateTimeInterface $expiresAt,
+        ?DateTimeInterface $expiresAt,
     )
     {
         $this->user = $user;
@@ -40,7 +40,7 @@ class CreateAccessTokenPersistenceDto
         return $this->abilities;
     }
 
-    public function expiresAt(): DateTimeInterface
+    public function expiresAt(): ?DateTimeInterface
     {
         return $this->expiresAt;
     }
