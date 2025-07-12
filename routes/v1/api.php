@@ -36,6 +36,7 @@ Route::middleware(['throttle:api'])->group(function () {
         Route::delete('/account', [AccountController::class, 'destroy']);
 
         Route::apiResource('comments', StandardCommentController::class);
+        Route::post('logout', [AuthenticateController::class, 'logout']);
     });
 
     Route::middleware(['auth:sanctum', 'auth.admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -43,6 +44,5 @@ Route::middleware(['throttle:api'])->group(function () {
         Route::get('/posts/{post}/comments', [PostController::class, 'comments']);
         Route::apiResource('users', UserController::class);
         Route::apiResource('comments', CommentController::class);
-        Route::post('logout', [AuthenticateController::class, 'logout']);
     });
 });
