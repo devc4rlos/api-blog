@@ -20,7 +20,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd
-          coverage: none
+          coverage: xdebug
 
       - name: Copy .env file
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -41,8 +41,14 @@ jobs:
           DB_DATABASE: database/database.sqlite
         run: php artisan migrate:fresh --seed --force
 
-      - name: Run tests
+      - name: Run tests and generate coverage report
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: php artisan test
+        run: php artisan test --coverage-clover=coverage.xml
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
