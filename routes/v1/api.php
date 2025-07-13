@@ -2,6 +2,7 @@
 
 use App\Facades\ResponseApi;
 use App\Http\Controllers\V1\CommentController;
+use App\Http\Controllers\V1\IntegrationTokenController;
 use App\Http\Controllers\V1\StandardCommentController;
 use App\Http\Controllers\V1\StandardPostController;
 use App\Http\Controllers\V1\AccountController;
@@ -40,6 +41,9 @@ Route::middleware(['throttle:api'])->group(function () {
     });
 
     Route::middleware(['auth:sanctum', 'auth.admin'])->prefix('admin')->name('admin.')->group(function () {
+        Route::get('integration-token', [IntegrationTokenController::class, 'show']);
+        Route::post('integration-token', [IntegrationTokenController::class, 'store']);
+        Route::delete('integration-token', [IntegrationTokenController::class, 'destroy']);
         Route::apiResource('posts', PostController::class);
         Route::get('/posts/{post}/comments', [PostController::class, 'comments']);
         Route::apiResource('users', UserController::class);
