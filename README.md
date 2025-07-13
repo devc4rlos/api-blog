@@ -1,61 +1,246 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# API Blog - Backend
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Build Status](https://github.com/devc4rlos/api-blog/actions/workflows/laravel.yml/badge.svg)](https://github.com/devc4rlos/api-blog/actions/workflows/laravel.yml)
+![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-blue)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![GitHub license](https://img.shields.io/github/license/devc4rlos/api-blog.svg)](https://github.com/devc4rlos/api-blog/blob/main/LICENSE)
+[![codecov](https://codecov.io/gh/devc4rlos/api-blog/graph/badge.svg)](https://codecov.io/github/devc4rlos/api-blog)
 
-## About Laravel
+Esta é a API RESTful para um sistema de blog, desenvolvida como um case de estudo de arquitetura de software robusta, escalável e de fácil manutenção, utilizando as melhores práticas do ecossistema Laravel.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O projeto vai além de um simples CRUD, implementando uma arquitetura em camadas bem definida, padrões de projeto modernos e uma suíte de testes completa para garantir a qualidade e a confiabilidade do código.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Principais Features e Funcionalidades
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Autenticação e Autorização:** Sistema completo com Sanctum, incluindo login, logout, registro público e recuperação de senha.
+* **Controle de Acesso Baseado em Papéis (RBAC):** Distinção clara entre usuários comuns e administradores, com permissões granulares definidas por Policies.
+* **Gerenciamento de Conta (Self-Service):** Endpoints para que usuários autenticados possam visualizar e gerenciar seus próprios dados.
+* **Gerenciamento de Usuários (Admin):** Endpoints para que administradores possam gerenciar todos os usuários do sistema.
+* **Gerenciamento de Conteúdo (Posts e Comentários):** APIs completas para o CRUD de posts e comentários, com regras de negócio e de autorização.
+* **Busca e Filtragem Avançada:** Sistema de consulta dinâmico via Padrão de Projeto Chain of Responsibility (Pipeline).
+* **Upload de Arquivos:** Gerenciamento de upload de imagens para posts, com armazenamento desacoplado em **Amazon S3**, utilizando políticas de segurança via **IAM**.
+* **Documentação Interativa:** Documentação completa e testável com OpenAPI (Swagger).
 
-## Learning Laravel
+## Destaques Técnicos e Arquiteturais
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Esta seção detalha as decisões de arquitetura e as habilidades técnicas aplicadas no projeto.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 1\. Arquitetura em Camadas (Layered Architecture)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+A aplicação foi estruturada seguindo uma arquitetura limpa para garantir a separação de responsabilidades. Abaixo, um diagrama simplificado do fluxo de uma requisição:
 
-## Laravel Sponsors
+```mermaid
+graph TD
+    A[Request] --> B(Controller);
+    B --> C{Service Layer};
+    C --> D[Repository];
+    D --> E((Database));
+    C --> F{DTOs};
+    F --> B;
+    B --> G[Response];
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Skill em Destaque:** Design de Software, Arquitetura Limpa, SRP.
 
-### Premium Partners
+### 2\. Padrões de Projeto (Design Patterns)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Padrões como **Repository**, **Decorator**, **DTOs** e **Chain of Responsibility (CoR)** foram aplicados para criar um código flexível e reutilizável.
+**Skill em Destaque:** Aplicação prática de Padrões de Projeto.
 
-## Contributing
+### 3\. Segurança (Security)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Uso de **Sanctum**, **Policies**, **Rate Limiting** customizado e prevenção de **Mass Assignment** via DTOs.
+**Skill em Destaque:** Security Mindset, Defesa em Profundidade.
 
-## Code of Conduct
+### 4\. Observabilidade (Observability)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Logging Estruturado** com `X-Request-ID`, logging de eventos de negócio e **Health Checks** proativos.
+**Skill em Destaque:** Foco em operações (DevOps) e monitoramento.
 
-## Security Vulnerabilities
+### 5\. Desempenho (Performance)
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Cache Inteligente** com invalidação automática via Eventos/Listeners e uso de **Jobs e Filas** para processamento assíncrono.
+**Skill em Destaque:** Otimização, estratégias de cache e processamento assíncrono.
 
-## License
+### 6\. Qualidade de Código e Testes
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Distinção clara entre **Testes Unitários** e **Testes de Feature**, e uso de **Conventional Commits**.
+**Skill em Destaque:** TDD/BDD, organização de versionamento.
+
+### 7\. Documentação de API
+
+API 100% documentada com **OpenAPI (Swagger)** de forma modular para uma melhor experiência do desenvolvedor (DX).
+**Skill em Destaque:** Comunicação técnica clara e documentação de APIs.
+
+### 8\. Integração com Cloud (AWS S3 & IAM)
+
+Armazenamento de arquivos no **Amazon S3** com acesso seguro via usuário **IAM** com permissões mínimas (Least Privilege).
+**Skill em Destaque:** Cloud Architecture, Segurança em Nuvem (IAM).
+
+## Tecnologias Utilizadas
+
+* PHP 8.2+
+* Laravel 12
+* Docker (via Laravel Sail)
+* Laravel Sanctum (Autenticação)
+* l5-swagger (Documentação OpenAPI)
+* PHPUnit (Testes)
+* MySQL / SQLite (Banco de Dados)
+* AWS S3 (Armazenamento de Arquivos)
+* Redis (Cache e Filas)
+
+## 📋 Pré-requisitos
+
+Antes de começar, certifique-se de que você tem as seguintes ferramentas instaladas em sua máquina:
+
+* [Git](https://git-scm.com/)
+* [Docker](https://www.docker.com/get-started)
+* [Docker Compose](https://docs.docker.com/compose/install/) (geralmente já vem com o Docker Desktop)
+
+## Como Executar o Projeto
+
+### Com Laravel Sail (Recomendado)
+
+O Laravel Sail oferece um ambiente de desenvolvimento local completo baseado em Docker.
+
+1.  Clone o repositório:
+
+    ```bash
+    git clone https://github.com/devc4rlos/api-blog.git
+    cd api-blog
+    ```
+
+2.  Instale as dependências do Composer:
+
+    ```bash
+    docker run --rm \
+        -u "$(id -u):$(id -g)" \
+        -v "$(pwd):/var/www/html" \
+        -w /var/www/html \
+        laravelsail/php82-composer:latest \
+        composer install --ignore-platform-reqs
+    ```
+
+3.  Copie e configure o arquivo de ambiente:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+    **Importante:** Abra o arquivo `.env` e configure as credenciais essenciais para o funcionamento do projeto:
+
+    * **Banco de Dados:** `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+    * **AWS S3 Bucket:** `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`, `AWS_BUCKET`
+    * **Serviço de E-mail (para recuperação de senha):** `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS`
+
+4.  Inicie os containers do Sail:
+
+    ```bash
+    ./vendor/bin/sail up -d
+    ```
+
+5.  Execute os comandos de setup da aplicação:
+
+    ```bash
+    # Gere a chave da aplicação
+    ./vendor/bin/sail artisan key:generate
+
+    # Execute as migrações e seeders
+    ./vendor/bin/sail artisan migrate --seed
+
+    # Gere a documentação da API
+    ./vendor/bin/sail artisan l5-swagger:generate
+    ```
+
+6.  Execute o worker da fila (em um novo terminal):
+    Para que tarefas como o envio de e-mails de recuperação de senha funcionem, o worker da fila precisa estar em execução.
+
+    ```bash
+    ./vendor/bin/sail artisan queue:work
+    ```
+
+O projeto estará disponível em `http://localhost`.
+
+## 🕹️ Uso da API
+
+### 🔑 Autenticação
+
+Para acessar os endpoints protegidos, obtenha um token de autenticação via `POST /api/login` e inclua-o no cabeçalho de suas requisições:
+`Authorization: Bearer <SEU_TOKEN>`
+
+### Exemplo Rápido com `curl`
+
+1.  **Faça login para obter um token:**
+    *Substitua `user@example.com` e `password` por um usuário criado pelo seeder.*
+
+    ```bash
+    curl -X POST http://localhost/v1/login \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "email": "user@example.com",
+        "password": "password"
+      }'
+    ```
+
+    **Resposta esperada:**
+
+    ```json
+    {
+      "token": "1|abcdefghijklmnopqrstuvwxyz123456"
+    }
+    ```
+
+2.  **Acesse um endpoint protegido:**
+    *Use o token obtido no passo anterior.*
+
+    ```bash
+    TOKEN="COLE_SEU_TOKEN_AQUI"
+
+    curl -X GET http://localhost/v1/account \
+      -H "Authorization: Bearer $TOKEN" \
+      -H "Accept: application/json"
+    ```
+
+### 📖 Documentação dos Endpoints
+
+A documentação completa e interativa da API está disponível via Swagger UI.
+
+* **URL da Documentação:** `http://localhost/api/documentation`
+
+*(Caso a documentação não apareça, lembre-se de executar o comando `./vendor/bin/sail artisan l5-swagger:generate`)*
+
+## ✅ Testes
+
+Para garantir a qualidade e a estabilidade da API, siga os passos abaixo para executar a suíte de testes automatizados.
+
+### Com Laravel Sail
+
+1.  **Preparar o banco de dados de teste:**
+    Este comando irá limpar e recriar o banco de dados de teste para garantir um ambiente limpo para cada execução.
+
+    ```bash
+    ./vendor/bin/sail artisan migrate:fresh --seed --env=testing
+    ```
+
+2.  **Executar a suíte de testes:**
+    Este comando executa todos os testes unitários e de feature do projeto.
+
+    ```bash
+    ./vendor/bin/sail test
+    ```
+
+## 🤝 Como Contribuir
+
+Contribuições são bem-vindas\! Sinta-se à vontade para abrir uma issue para relatar bugs e sugerir features, ou um pull request com melhorias.
+
+## 📝 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 👤 Autor
+
+**Carlos Alexandre**
+
+* **LinkedIn:** [https://linkedin.com/in/devc4rlos](https://linkedin.com/in/devc4rlos)
+* **GitHub:** [https://github.com/devc4rlos](https://github.com/devc4rlos)
