@@ -1,0 +1,49 @@
+services:
+  app:
+    image: ghcr.io/devc4rlos/api-blog:latest
+    container_name: api-blog
+    restart: unless-stopped
+    volumes:
+      - ./.env:/var/www/.env
+      - ./storage:/var/www/storage
+    networks:
+      - proxy
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: api-blog-nginx
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.sua-api-http.rule=Host(`api.carlosalexandre.com.br`)"
+      - "traefik.http.routers.sua-api-http.entrypoints=web"
+      - "traefik.http.routers.sua-api-http.middlewares=redirect-to-https"
+      - "traefik.http.routers.sua-api-http.service=sua-api"
+      - "traefik.http.routers.sua-api-https.rule=Host(`api.carlosalexandre.com.br`)"
+      - "traefik.http.routers.sua-api-https.entrypoints=websecure"
+      - "traefik.http.routers.sua-api-https.tls.certresolver=myresolver"
+      - "traefik.http.routers.sua-api-https.service=sua-api"
+      - "traefik.http.services.sua-api.loadbalancer.server.port=80"
+
+  worker:
+    image: ghcr.io/devc4rlos/api-blog:latest
+    container_name: api-blog-worker
+    restart: unless-stopped
+    command: php artisan queue:work redis --sleep=3 --tries=3
+    volumes:
+      - ./.env:/var/www/.env
+      - ./storage:/var/www/storage
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
