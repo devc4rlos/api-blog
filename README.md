@@ -5,10 +5,11 @@
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 [![GitHub license](https://img.shields.io/github/license/devc4rlos/api-blog.svg)](https://github.com/devc4rlos/api-blog/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/devc4rlos/api-blog/graph/badge.svg)](https://codecov.io/github/devc4rlos/api-blog)
+[![Status da API](https://img.shields.io/badge/API-Online-brightgreen)](https://api.carlosalexandre.com.br/v1)
 
 Esta é a API RESTful para um sistema de blog, desenvolvida como um case de estudo de arquitetura de software robusta, escalável e de fácil manutenção, utilizando as melhores práticas do ecossistema Laravel.
 
-O projeto vai além de um simples CRUD, implementando uma arquitetura em camadas bem definida, padrões de projeto modernos e uma suíte de testes completa para garantir a qualidade e a confiabilidade do código.
+O projeto vai além de um simples CRUD, implementando uma arquitetura em camadas bem definida, padrões de projeto modernos, uma suíte de testes completa e um **pipeline de deploy contínuo (CI/CD)** que garante a qualidade e a agilidade nas entregas.
 
 ## Principais Features e Funcionalidades
 
@@ -19,7 +20,7 @@ O projeto vai além de um simples CRUD, implementando uma arquitetura em camadas
 * **Gerenciamento de Conteúdo (Posts e Comentários):** APIs completas para o CRUD de posts e comentários, com regras de negócio e de autorização.
 * **Busca e Filtragem Avançada:** Sistema de consulta dinâmico via Padrão de Projeto Chain of Responsibility (Pipeline).
 * **Upload de Arquivos:** Gerenciamento de upload de imagens para posts, com armazenamento desacoplado em **Amazon S3**, utilizando políticas de segurança via **IAM**.
-* **Documentação Interativa:** Documentação completa e testável com OpenAPI (Swagger).
+* **Documentação Interativa:** Documentação completa e testável com OpenAPI (Swagger), disponível em ambiente de desenvolvimento.
 
 ## Destaques Técnicos e Arquiteturais
 
@@ -77,41 +78,81 @@ API 100% documentada com **OpenAPI (Swagger)** de forma modular para uma melhor 
 Armazenamento de arquivos no **Amazon S3** com acesso seguro via usuário **IAM** com permissões mínimas (Least Privilege).
 **Skill em Destaque:** Cloud Architecture, Segurança em Nuvem (IAM).
 
+### 9\. Deploy Contínuo (CI/CD) e Containerização
+
+O projeto é totalmente containerizado para produção usando um **Dockerfile multi-stage** otimizado, garantindo uma imagem final enxuta e segura. A orquestração dos serviços de aplicação, web server (Nginx) e worker é gerenciada com **Docker Compose**. O pipeline de **Deploy Contínuo (CD)**, construído com **GitHub Actions**, automatiza todo o processo: build da imagem, push para o **GitHub Container Registry (GHCR)** e deploy no servidor de produção via **SSH**.
+**Skill em Destaque:** DevOps, CI/CD, Docker, GitHub Actions, Automação de Deploy.
+
 ## Tecnologias Utilizadas
 
 * PHP 8.2+
 * Laravel 12
-* Docker (via Laravel Sail)
+* Docker (via Laravel Sail e para produção)
+* Nginx
 * Laravel Sanctum (Autenticação)
 * l5-swagger (Documentação OpenAPI)
 * PHPUnit (Testes)
 * MySQL / SQLite (Banco de Dados)
 * AWS S3 (Armazenamento de Arquivos)
 * Redis (Cache e Filas)
+* GitHub Actions (CI/CD)
 
-## 📋 Pré-requisitos
+## 🚀 Acessando a API (Live Demo)
 
-Antes de começar, certifique-se de que você tem as seguintes ferramentas instaladas em sua máquina:
+A API está em produção e pode ser acessada publicamente.
+
+* **URL Base da API:** `https://api.carlosalexandre.com.br/v1`
+
+### 🔑 Autenticação
+
+Para acessar os endpoints protegidos, obtenha um token de autenticação via `POST /v1/login` e inclua-o no cabeçalho de suas requisições: `Authorization: Bearer <SEU_TOKEN>`
+
+### Exemplo Rápido com `curl`
+
+1.  **Faça login para obter um token:**
+
+    * *Você pode se registrar gratuitamente no endpoint `POST /v1/register` para criar um novo usuário.*
+
+    <!-- end list -->
+
+    ```bash
+    curl -X POST https://api.carlosalexandre.com.br/v1/login \
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{
+        "email": "seu_email_cadastrado@email.com",
+        "password": "sua_senha"
+      }'
+    ```
+
+2.  **Acesse um endpoint protegido (ex: seus dados de conta):**
+
+    * Use o token obtido no passo anterior.
+
+    <!-- end list -->
+
+    ```bash
+    TOKEN="COLE_SEU_TOKEN_AQUI"
+
+    curl -X GET https://api.carlosalexandre.com.br/v1/account \
+      -H "Authorization: Bearer $TOKEN" \
+      -H "Accept: application/json"
+    ```
+
+## 👨‍💻 Executando o Projeto Localmente
+
+Se preferir executar o projeto em seu próprio ambiente para explorar a documentação ou contribuir.
+
+### 📋 Pré-requisitos
 
 * [Git](https://git-scm.com/)
 * [Docker](https://www.docker.com/get-started)
-* [Docker Compose](https://docs.docker.com/compose/install/) (geralmente já vem com o Docker Desktop)
-
-## Como Executar o Projeto
+* [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Com Laravel Sail (Recomendado)
 
-O Laravel Sail oferece um ambiente de desenvolvimento local completo baseado em Docker.
-
-1.  Clone o repositório:
-
-    ```bash
-    git clone https://github.com/devc4rlos/api-blog.git
-    cd api-blog
-    ```
-
-2.  Instale as dependências do Composer:
-
+1.  Clone o repositório: `git clone https://github.com/devc4rlos/api-blog.git && cd api-blog`
+2.  Instale as dependências:
     ```bash
     docker run --rm \
         -u "$(id -u):$(id -g)" \
@@ -120,115 +161,27 @@ O Laravel Sail oferece um ambiente de desenvolvimento local completo baseado em 
         laravelsail/php82-composer:latest \
         composer install --ignore-platform-reqs
     ```
-
-3.  Copie e configure o arquivo de ambiente:
-
+3.  Copie e configure o `.env`: `cp .env.example .env` (e preencha as credenciais)
+4.  Inicie os containers: `./vendor/bin/sail up -d`
+5.  Execute o setup:
     ```bash
-    cp .env.example .env
-    ```
-
-    **Importante:** Abra o arquivo `.env` e configure as credenciais essenciais para o funcionamento do projeto:
-
-    * **Banco de Dados:** `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
-    * **AWS S3 Bucket:** `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_DEFAULT_REGION`, `AWS_BUCKET`
-    * **Serviço de E-mail (para recuperação de senha):** `MAIL_MAILER`, `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `MAIL_PASSWORD`, `MAIL_FROM_ADDRESS`
-
-4.  Inicie os containers do Sail:
-
-    ```bash
-    ./vendor/bin/sail up -d
-    ```
-
-5.  Execute os comandos de setup da aplicação:
-
-    ```bash
-    # Gere a chave da aplicação
     ./vendor/bin/sail artisan key:generate
-
-    # Execute as migrações e seeders
     ./vendor/bin/sail artisan migrate --seed
-
-    # Gere a documentação da API
-    ./vendor/bin/sail artisan l5-swagger:generate
-    ```
-
-6.  Execute o worker da fila (em um novo terminal):
-    Para que tarefas como o envio de e-mails de recuperação de senha funcionem, o worker da fila precisa estar em execução.
-
-    ```bash
-    ./vendor/bin/sail artisan queue:work
+    ./vendor/bin/sail artisan l5-swagger:generate # Gera a documentação
     ```
 
 O projeto estará disponível em `http://localhost`.
 
-## 🕹️ Uso da API
-
-### 🔑 Autenticação
-
-Para acessar os endpoints protegidos, obtenha um token de autenticação via `POST /api/login` e inclua-o no cabeçalho de suas requisições:
-`Authorization: Bearer <SEU_TOKEN>`
-
-### Exemplo Rápido com `curl`
-
-1.  **Faça login para obter um token:**
-    *Substitua `user@example.com` e `password` por um usuário criado pelo seeder.*
-
-    ```bash
-    curl -X POST http://localhost/v1/login \
-      -H "Content-Type: application/json" \
-      -H "Accept: application/json" \
-      -d '{
-        "email": "user@example.com",
-        "password": "password"
-      }'
-    ```
-
-    **Resposta esperada:**
-
-    ```json
-    {
-      "token": "1|abcdefghijklmnopqrstuvwxyz123456"
-    }
-    ```
-
-2.  **Acesse um endpoint protegido:**
-    *Use o token obtido no passo anterior.*
-
-    ```bash
-    TOKEN="COLE_SEU_TOKEN_AQUI"
-
-    curl -X GET http://localhost/v1/account \
-      -H "Authorization: Bearer $TOKEN" \
-      -H "Accept: application/json"
-    ```
-
-### 📖 Documentação dos Endpoints
-
-A documentação completa e interativa da API está disponível via Swagger UI.
-
-* **URL da Documentação:** `http://localhost/api/documentation`
-
-*(Caso a documentação não apareça, lembre-se de executar o comando `./vendor/bin/sail artisan l5-swagger:generate`)*
+* **A documentação da API estará disponível em:** `http://localhost/api/documentation`
 
 ## ✅ Testes
 
-Para garantir a qualidade e a estabilidade da API, siga os passos abaixo para executar a suíte de testes automatizados.
+Para garantir a qualidade e a estabilidade da API, execute a suíte de testes automatizados localmente.
 
-### Com Laravel Sail
-
-1.  **Preparar o banco de dados de teste:**
-    Este comando irá limpar e recriar o banco de dados de teste para garantir um ambiente limpo para cada execução.
-
-    ```bash
-    ./vendor/bin/sail artisan migrate:fresh --seed --env=testing
-    ```
-
-2.  **Executar a suíte de testes:**
-    Este comando executa todos os testes unitários e de feature do projeto.
-
-    ```bash
-    ./vendor/bin/sail test
-    ```
+```bash
+# Executa todos os testes unitários e de feature do projeto
+./vendor/bin/sail test
+```
 
 ## 🤝 Como Contribuir
 
