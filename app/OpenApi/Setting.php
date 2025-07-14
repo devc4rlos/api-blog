@@ -7,12 +7,12 @@ use OpenApi\Annotations as OA;
 /**
  * @OA\Info(
  *     title="API Blog",
- *     version="0.0.1",
+ *     version="1.0.0",
  *     description="API to manage blog",
  *     @OA\Contact(
  *         name="Carlos Alexandre",
  *         email="dev@carlosalexandre.com.br",
- *         url="https://carlosalexandre.com.br",
+ *         url="https://api.carlosalexandre.com.br",
  *     ),
  *     @OA\License(
  *         name="MIT",
